@@ -28,8 +28,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NestHubTheme {
-                LoginScreen(viewModel )
+                LoginScreen()
             }
         }
     }
 }
+
+
