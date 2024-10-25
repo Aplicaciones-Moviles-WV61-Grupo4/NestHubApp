@@ -38,7 +38,8 @@ class LoginScreen extends StatelessWidget {
                         labelStyle: const TextStyle(color: Colors.black),
                         hintText: 'correo eléctronico',
                         hintStyle: TextStyle(color: Colors.grey[200]),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                         border: InputBorder.none,
                       ),
                     ),
@@ -50,7 +51,8 @@ class LoginScreen extends StatelessWidget {
                         labelStyle: const TextStyle(color: Colors.black),
                         hintText: 'contraseña',
                         hintStyle: TextStyle(color: Colors.grey[200]),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                         border: InputBorder.none,
                       ),
                     ),
