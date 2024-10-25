@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/step_1_page.dart';
 
 class PublishingPage extends StatelessWidget {
   const PublishingPage({super.key});
@@ -54,7 +55,12 @@ class PublishingPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => const Step1Page()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFB44101),
                     padding: const EdgeInsets.symmetric(vertical: 18),
