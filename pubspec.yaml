@@ -24,5 +24,9 @@ flutter:
     - assets/login_icons/icon_google.png
     - assets/login_icons/icon_mail.png
     - assets/login_icons/icon_person_add.png
+    - assets/steps_icons/step_1/step1.png
+    - assets/steps_icons/step_2/step2.png
+    - assets/steps_icons/step3.png
+
     - assets/space_type_icons/
     - assets/photo_upload_icons/

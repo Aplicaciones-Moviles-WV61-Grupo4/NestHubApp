@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/step_1_page.dart';
 
 class SpaceTypeSelectionScreen extends StatelessWidget {
   const SpaceTypeSelectionScreen({super.key});
@@ -62,7 +63,11 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      // Acción para Atrás
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Step1Page()),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE4AC44)),
