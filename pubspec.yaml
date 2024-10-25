@@ -1,6 +1,6 @@
 name: nesthub
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -24,4 +24,5 @@ flutter:
     - assets/login_icons/icon_google.png
     - assets/login_icons/icon_mail.png
     - assets/login_icons/icon_person_add.png
-
+    - assets/space_type_icons/
+    - assets/photo_upload_icons/

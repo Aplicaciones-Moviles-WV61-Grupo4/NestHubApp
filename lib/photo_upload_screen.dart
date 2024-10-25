@@ -31,67 +31,21 @@ class PhotoUploadScreen extends StatelessWidget {
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Acción para agregar fotos
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[200],
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 1, 134, 72),
-                      width: 2,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_a_photo,
-                          color: Color.fromARGB(255, 1, 134, 72)),
-                      SizedBox(width: 8),
-                      Text(
-                        'Agregar fotos',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 1, 134, 72)),
-                      ),
-                    ],
-                  ),
+                child: _buildPhotoButton(
+                  context,
+                  imagePath: 'assets/photo_upload_icons/agregar_fotos.png',
+                  label: 'Agrega fotos',
+                  onPressed: () {},
                 ),
               ),
               const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: _buildPhotoButton(
+                  context,
+                  imagePath: 'assets/photo_upload_icons/foto_nueva.png',
+                  label: 'Toma fotos nuevas',
                   onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[200],
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 1, 134, 72),
-                      width: 2,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.camera_alt,
-                          color: Color.fromARGB(255, 1, 134, 72)),
-                      SizedBox(width: 8),
-                      Text(
-                        'Toma fotos nuevas',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 1, 134, 72)),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               const Spacer(),
@@ -106,18 +60,56 @@ class PhotoUploadScreen extends StatelessWidget {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 1, 134, 72),
-                      foregroundColor: Colors.white,
+                      foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text('Siguiente'),
+                    child: const Text('Siguiente',
+                        style: TextStyle(color: Colors.black)),
                   ),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPhotoButton(BuildContext context,
+      {required String imagePath,
+      required String label,
+      required VoidCallback onPressed}) {
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        side: const BorderSide(
+          color: Color.fromARGB(255, 1, 134, 72),
+          width: 2,
+        ),
+        backgroundColor: Colors.grey[200],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        minimumSize: const Size(double.infinity, 70),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset(
+            imagePath,
+            height: 24,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
     );
   }

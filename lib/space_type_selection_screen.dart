@@ -29,25 +29,27 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                   children: [
                     _buildSpaceTypeButton(
                       context,
-                      icon: Icons.beach_access,
+                      imagePath: 'assets/space_type_icons/image_casa_playa.png',
                       label: 'Casa de playa',
                       onPressed: () {},
                     ),
                     _buildSpaceTypeButton(
                       context,
-                      icon: Icons.house,
+                      imagePath:
+                          'assets/space_type_icons/image_casa_urbana.png',
                       label: 'Casa urbana',
                       onPressed: () {},
                     ),
                     _buildSpaceTypeButton(
                       context,
-                      icon: Icons.meeting_room,
+                      imagePath:
+                          'assets/space_type_icons/image_salon_elegante.png',
                       label: 'Salones elegantes',
                       onPressed: () {},
                     ),
                     _buildSpaceTypeButton(
                       context,
-                      icon: Icons.nature,
+                      imagePath: 'assets/space_type_icons/image_casa_campo.png',
                       label: 'Casa de campo',
                       onPressed: () {},
                     ),
@@ -59,7 +61,9 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Acción para Atrás
+                    },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE4AC44)),
                       foregroundColor: Colors.black,
@@ -70,7 +74,9 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Acción para Siguiente
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE4AC44),
                       foregroundColor: Colors.white,
@@ -90,11 +96,11 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
   }
 
   Widget _buildSpaceTypeButton(BuildContext context,
-      {required IconData icon,
+      {required String imagePath,
       required String label,
       required VoidCallback onPressed}) {
     return Container(
-      height: 100,
+      height: 120, // Aumenta la altura del contenedor
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
@@ -108,7 +114,8 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40, color: Colors.black),
+            Image.asset(imagePath,
+                height: 100), // Aumenta la altura de la imagen
             const SizedBox(height: 8),
             Text(label, textAlign: TextAlign.center),
           ],
