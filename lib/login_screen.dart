@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +65,6 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
-                  child: const Text(
-                    'Continuar',
-                    style: TextStyle(color: Colors.black),
-                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -77,6 +75,10 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     // Handle login
                   },
+                  child: const Text(
+                    'Continuar',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
               const SizedBox(height: 40),
