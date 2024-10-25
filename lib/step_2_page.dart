@@ -18,7 +18,7 @@ class Step2Page extends StatelessWidget {
               const SizedBox(height: 50), // Espacio antes de la imagen
               Center(
                 child: Image.asset(
-                  'assets/steps_icons/step2.png', // Ruta de la imagen
+                  'assets/steps_icons/step_2/step2.png', // Ruta de la imagen
                   height: 250,
                   fit: BoxFit.contain, // Ajusta la altura de la imagen según sea necesario
                 ),

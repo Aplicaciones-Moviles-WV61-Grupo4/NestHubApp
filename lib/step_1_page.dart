@@ -9,19 +9,19 @@ class Step1Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5), // Color gris claro
+      backgroundColor: const Color(0xFFF5F5F5),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 50), // Espacio antes de la imagen
+              const SizedBox(height: 50),
               Center(
                 child: Image.asset(
-                  'assets/steps_icons/step1.png', // Ruta de la imagen
+                  'assets/steps_icons/step_1/step1.png',
                   height: 300,
-                  fit: BoxFit.contain, // Ajusta la altura de la imagen según sea necesario
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 20),
@@ -51,7 +51,7 @@ class Step1Page extends StatelessWidget {
                 ),
               ),
               
-              const Spacer(), // Espacio flexible para empujar los botones hacia abajo
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -63,7 +63,7 @@ class Step1Page extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey, // Color del botón Atrás
+                      backgroundColor: Colors.grey,
                       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -82,7 +82,7 @@ class Step1Page extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE7A436), // Color del botón Siguiente
+                      backgroundColor: const Color(0xFFE7A436),
                       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -95,7 +95,7 @@ class Step1Page extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Añadir algo de espacio después de los botones
+              const SizedBox(height: 20),
             ],
           ),
         ),
