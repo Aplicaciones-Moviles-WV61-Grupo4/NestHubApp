@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/publishing_page.dart';
+import 'package:nesthub/space_type_selection_screen.dart';
 //import 'package:nesthub/step_2_page.dart';
 
 class Step1Page extends StatelessWidget {
@@ -75,10 +76,10 @@ class Step1Page extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context, 
-                      //   MaterialPageRoute(builder: (context) => const Step2Page()),
-                      // );
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const SpaceTypeSelectionScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE7A436), // Color del botón Siguiente
