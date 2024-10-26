@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/step_2_page.dart';
 import 'package:nesthub/step_3_page.dart';
+import 'package:nesthub/title_description_screen.dart';
 
 class PhotoUploadScreen extends StatelessWidget {
   const PhotoUploadScreen({super.key});
@@ -57,13 +58,15 @@ class PhotoUploadScreen extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const Step2Page()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Step2Page()),
                       );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF018648)),
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -74,14 +77,17 @@ class PhotoUploadScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const Step3Page()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const TitleDescriptionScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF018648),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

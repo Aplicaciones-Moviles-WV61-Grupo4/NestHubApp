@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/address_confirmation_screen.dart';
 
 class LocationSettingScreen extends StatelessWidget {
   const LocationSettingScreen({super.key});
@@ -58,7 +59,14 @@ class LocationSettingScreen extends StatelessWidget {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const AddressConfirmationScreen()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE4AC44),
                       foregroundColor: Colors.white,

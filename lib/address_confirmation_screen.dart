@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/step_1_page.dart'; // Asegúrate de que la ruta sea correcta
+import 'package:nesthub/step_1_page.dart';
+import 'package:nesthub/step_2_page.dart'; // Asegúrate de que la ruta sea correcta
 
 class AddressConfirmationScreen extends StatelessWidget {
   const AddressConfirmationScreen({super.key});
@@ -60,7 +61,7 @@ class AddressConfirmationScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Step1Page(),
+                          builder: (context) => const Step2Page(),
                         ),
                       );
                     },

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/property_display_screen.dart';
-//import 'package:nesthub/login_screen.dart';
-//import 'package:nesthub/registration_screen.dart';
+import 'package:nesthub/step_1_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,11 +10,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PropertyDisplayScreen(),
-      //LoginScreen()
-      //RegistrationScreen(),
+      home: Step1Page(),
     );
   }
 }

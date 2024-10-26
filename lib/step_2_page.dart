@@ -21,7 +21,8 @@ class Step2Page extends StatelessWidget {
                 child: Image.asset(
                   'assets/steps_icons/step_2/step2.png', // Ruta de la imagen
                   height: 250,
-                  fit: BoxFit.contain, // Ajusta la altura de la imagen según sea necesario
+                  fit: BoxFit
+                      .contain, // Ajusta la altura de la imagen según sea necesario
                 ),
               ),
               const SizedBox(height: 20),
@@ -50,21 +51,23 @@ class Step2Page extends StatelessWidget {
                   color: Colors.black54,
                 ),
               ),
-              
-              const Spacer(), // Espacio flexible para empujar los botones hacia abajo
+
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const PublishingPage()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PublishingPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey, // Color del botón Atrás
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      backgroundColor: Colors.grey,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -77,13 +80,15 @@ class Step2Page extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const PhotoUploadScreen()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PhotoUploadScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF018648), // Color del botón Siguiente
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      backgroundColor: const Color(0xFF018648),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -95,7 +100,8 @@ class Step2Page extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Añadir algo de espacio después de los botones
+              const SizedBox(
+                  height: 20), // Añadir algo de espacio después de los botones
             ],
           ),
         ),

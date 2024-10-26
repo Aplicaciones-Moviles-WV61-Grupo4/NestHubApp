@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nesthub/publish_screen.dart';
 import 'package:nesthub/step_3_page.dart'; // Importar FilteringTextInputFormatter
 
 class PriceSettingScreen extends StatelessWidget {
@@ -56,14 +57,16 @@ class PriceSettingScreen extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const Step3Page()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Step3Page()),
                       );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF01698C)),
                       foregroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -71,11 +74,18 @@ class PriceSettingScreen extends StatelessWidget {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PublishScreen()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

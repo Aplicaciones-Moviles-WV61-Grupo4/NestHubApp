@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/step_3_page.dart';
 
 class TitleDescriptionScreen extends StatelessWidget {
   const TitleDescriptionScreen({super.key});
@@ -67,7 +68,13 @@ class TitleDescriptionScreen extends StatelessWidget {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Step3Page()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF018648),
                       foregroundColor: Colors.white,

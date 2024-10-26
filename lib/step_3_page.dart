@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/price_setting_screen.dart';
 import 'package:nesthub/publishing_page.dart';
 
 class Step3Page extends StatelessWidget {
@@ -19,7 +20,8 @@ class Step3Page extends StatelessWidget {
                 child: Image.asset(
                   'assets/steps_icons/step3.png', // Ruta de la imagen
                   height: 300,
-                  fit: BoxFit.contain, // Ajusta la altura de la imagen según sea necesario
+                  fit: BoxFit
+                      .contain, // Ajusta la altura de la imagen según sea necesario
                 ),
               ),
               const SizedBox(height: 20),
@@ -48,7 +50,7 @@ class Step3Page extends StatelessWidget {
                   color: Colors.black54,
                 ),
               ),
-              
+
               const Spacer(), // Espacio flexible para empujar los botones hacia abajo
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,13 +58,15 @@ class Step3Page extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const PublishingPage()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PublishingPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey, // Color del botón Atrás
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -74,11 +78,17 @@ class Step3Page extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Acción para el botón Siguiente
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PriceSettingScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF01698C), // Color del botón Siguiente
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      backgroundColor:
+                          const Color(0xFF01698C), // Color del botón Siguiente
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -90,7 +100,8 @@ class Step3Page extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Añadir algo de espacio después de los botones
+              const SizedBox(
+                  height: 20), // Añadir algo de espacio después de los botones
             ],
           ),
         ),
