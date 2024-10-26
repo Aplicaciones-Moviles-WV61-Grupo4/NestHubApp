@@ -43,12 +43,18 @@ class AddressConfirmationScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      // Acción para ir atrás
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const Step1Page()),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE4AC44)),
                       foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

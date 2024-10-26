@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nesthub/address_confirmation_screen.dart';
+import 'package:nesthub/space_type_selection_screen.dart';
+import 'package:nesthub/step_1_page.dart';
 
 class LocationSettingScreen extends StatefulWidget {
   const LocationSettingScreen({super.key});
@@ -69,8 +71,22 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Regresar a la página anterior
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const Step1Page()),
+                      );
                     },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFFE4AC44)),
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
