@@ -119,8 +119,7 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(imagePath,
-                height: 100), // Aumenta la altura de la imagen
+            Image.asset(imagePath, height: 100),
             const SizedBox(height: 8),
             Text(label, textAlign: TextAlign.center),
           ],
