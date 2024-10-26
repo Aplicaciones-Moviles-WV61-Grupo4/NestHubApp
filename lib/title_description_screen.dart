@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/step_2_page.dart';
 import 'package:nesthub/step_3_page.dart';
 
 class TitleDescriptionScreen extends StatelessWidget {
@@ -56,11 +57,17 @@ class TitleDescriptionScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Step2Page()),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFFE4AC44)),
+                      side: const BorderSide(color: Color(0xFF018648)),
                       foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
