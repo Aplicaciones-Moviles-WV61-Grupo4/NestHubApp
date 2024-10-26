@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/home_screen.dart';
 import 'package:nesthub/message_screen.dart';
+import 'package:nesthub/notificacion_screen.dart';
 import 'package:nesthub/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
 
@@ -24,7 +25,13 @@ class UserProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.orange),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificacionScreen())
+                );
+            },
           ),
         ],
       ),
@@ -108,7 +115,14 @@ class UserProfileScreen extends StatelessWidget {
               _buildMenuButton('assets/profile_icons/accesibilidad.png',
                   'Accesibilidad', () {}),
               _buildMenuButton('assets/profile_icons/notificacion.png',
-                  'Notificaciones', () {}),
+                  'Notificaciones', 
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NotificacionScreen())
+                      );
+                  },),
               _buildMenuButton('assets/profile_icons/datos_personales.png',
                   'Configuración de datos personales', () {}),
               const SizedBox(height: 30),
