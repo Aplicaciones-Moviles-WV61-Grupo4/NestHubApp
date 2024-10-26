@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/location_setting_screen.dart';
 import 'package:nesthub/step_1_page.dart';
 
 class SpaceTypeSelectionScreen extends StatelessWidget {
@@ -72,6 +73,7 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE4AC44)),
                       foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -80,11 +82,15 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Acción para Siguiente
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const LocationSettingScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE4AC44),
                       foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

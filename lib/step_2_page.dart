@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/photo_upload_screen.dart';
 import 'package:nesthub/publishing_page.dart';
 //import 'package:nesthub/step_3_page.dart';
 
@@ -75,10 +76,10 @@ class Step2Page extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context, 
-                      //   MaterialPageRoute(builder: (context) => const Step3Page()),
-                      // );
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const PhotoUploadScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF018648), // Color del botón Siguiente
