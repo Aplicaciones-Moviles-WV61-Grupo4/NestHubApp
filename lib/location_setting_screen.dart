@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nesthub/address_confirmation_screen.dart';
 
-class LocationSettingScreen extends StatelessWidget {
+class LocationSettingScreen extends StatefulWidget {
   const LocationSettingScreen({super.key});
+
+  @override
+  _LocationSettingScreenState createState() => _LocationSettingScreenState();
+}
+
+class _LocationSettingScreenState extends State<LocationSettingScreen> {
+  late GoogleMapController mapController;
+
+  final LatLng _initialPosition =
+      const LatLng(-12.1416, -77.0219); // Barranco, Lima coordinates
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +52,14 @@ class LocationSettingScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Container(
+              // Google Map
+              SizedBox(
                 height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Vista previa de Google Maps',
-                    style: TextStyle(color: Colors.black54),
+                child: GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _initialPosition,
+                    zoom: 15.0,
                   ),
                 ),
               ),
