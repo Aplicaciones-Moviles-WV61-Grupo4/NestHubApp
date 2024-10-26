@@ -9,7 +9,8 @@ class PropertyDisplayScreen extends StatefulWidget {
 class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
   late GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(-12.1416, -77.0219); // Barranco, Lima coordinates
+  final LatLng _center =
+      const LatLng(-12.1416, -77.0219); // Barranco, Lima coordinates
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -23,10 +24,10 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Image.network(
-              //'https://example.com/loft-image.jpg',
-              //height: 250,
-              //width: double.infinity,
-              //fit: BoxFit.cover,
+            //'https://example.com/loft-image.jpg',
+            //height: 250,
+            //width: double.infinity,
+            //fit: BoxFit.cover,
             //),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -44,29 +45,41 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
                   const Row(
                     children: [
                       Icon(Icons.star, color: Colors.orange),
-                      Text('4.92 · 10 reseñas', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('4.92 · 10 reseñas',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 16),
-                  const Text('Anfitrión: Lucas', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Anfitrión: Lucas',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   const Text('1 años anfitrionando'),
                   const SizedBox(height: 16),
-                  _buildFeature(Icons.vpn_key, 'Llegada autónoma', 'Realiza la llegada fácilmente mediante la cerradura con teclado.'),
-                  _buildFeature(Icons.location_on, 'Ubicación fantástica', 'Gracias a las reseñas, podemos estar seguros que es un buen lugar'),
+                  _buildFeature(Icons.vpn_key, 'Llegada autónoma',
+                      'Realiza la llegada fácilmente mediante la cerradura con teclado.'),
+                  _buildFeature(Icons.location_on, 'Ubicación fantástica',
+                      'Gracias a las reseñas, podemos estar seguros que es un buen lugar'),
                   const SizedBox(height: 16),
-                  const Text('Descripción', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text('Descripción',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  const Text('Apartamento de 1 dormitorio con aire acondicionado con vista parcial al mar, una ubicación fantástica, situado en el corazón de Barranco. El apartamento tiene una puerta bohemia y tradicional.'),
+                  const Text(
+                      'Apartamento de 1 dormitorio con aire acondicionado con vista parcial al mar, una ubicación fantástica, situado en el corazón de Barranco. El apartamento tiene una puerta bohemia y tradicional.'),
                   const SizedBox(height: 16),
-                  const Text('Qué servicios ofrece', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text('Qué servicios ofrece',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   _buildAmenity(Icons.kitchen, 'Cocina'),
                   _buildAmenity(Icons.wifi, 'Wifi'),
                   _buildAmenity(Icons.laptop, 'Zona de trabajo'),
-                  _buildAmenity(Icons.local_parking, 'Estacionamiento gratuito en las instalaciones'),
+                  _buildAmenity(Icons.local_parking,
+                      'Estacionamiento gratuito en las instalaciones'),
                   _buildAmenity(Icons.pool, 'Piscina al aire libre compartida'),
                   const SizedBox(height: 16),
-                  const Text('A dónde irás', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text('A dónde irás',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   const Text('Barranco, Lima, Perú'),
                   const SizedBox(height: 8),
@@ -85,24 +98,31 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
                     children: [
                       Icon(Icons.star, color: Colors.orange),
                       SizedBox(width: 4),
-                      Text('4.92 · 10 reseñas', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('4.92 · 10 reseñas',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  _buildReview('Franco Perez', 'Excelente alojamiento, todo igual a las fotos y en un muy buen estado.'),
-                  _buildReview('Javier Castro', 'Excelente ubicación, cerca de tiendas y restaurantes.'),
-                  _buildReview('Miguel Pino', 'El anfitrión fue muy receptivo, que incluye el estacionamiento es un plus.'),
+                  _buildReview('Franco Perez',
+                      'Excelente alojamiento, todo igual a las fotos y en un muy buen estado.'),
+                  _buildReview('Javier Castro',
+                      'Excelente ubicación, cerca de tiendas y restaurantes.'),
+                  _buildReview('Miguel Pino',
+                      'El anfitrión fue muy receptivo, que incluye el estacionamiento es un plus.'),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('\$35 / noche', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const Text('\$35 / noche',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                       ElevatedButton(
                         onPressed: () {
                           // Handle reservation
                         },
                         child: const Text('Reservar'),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal),
                       ),
                     ],
                   ),
@@ -127,7 +147,8 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(title,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 Text(description),
               ],
             ),

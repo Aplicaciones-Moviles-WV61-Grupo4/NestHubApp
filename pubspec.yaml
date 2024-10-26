@@ -27,6 +27,21 @@ flutter:
     - assets/steps_icons/step_1/step1.png
     - assets/steps_icons/step_2/step2.png
     - assets/steps_icons/step3.png
-
+    - assets/steps_icons/icon_profile.png
     - assets/space_type_icons/
     - assets/photo_upload_icons/
+    - assets/profile_icons/accesibilidad.png
+    - assets/profile_icons/centro_ayuda.png
+    - assets/profile_icons/comentarios.png
+    - assets/profile_icons/como_funciona.png
+    - assets/profile_icons/datos_personales.png
+    - assets/profile_icons/denunciar_problema.png
+    - assets/profile_icons/guias.png
+    - assets/profile_icons/icon_profile.png
+    - assets/profile_icons/informacion_personal.png
+    - assets/profile_icons/legal.png
+    - assets/profile_icons/notificacion.png
+    - assets/profile_icons/pagos_cobros.png
+    - assets/profile_icons/problemas_seguridad.png
+    - assets/profile_icons/publica_estado.png
+    - assets/profile_icons/seguridad.png
