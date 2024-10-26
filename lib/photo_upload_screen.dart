@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/step_2_page.dart';
+import 'package:nesthub/step_3_page.dart';
 
 class PhotoUploadScreen extends StatelessWidget {
   const PhotoUploadScreen({super.key});
@@ -53,20 +55,38 @@ class PhotoUploadScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OutlinedButton(
-                    onPressed: () {},
-                    child: const Text('Atrás'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 1, 134, 72),
+                    onPressed: () {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const Step2Page()),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF018648)),
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text('Siguiente',
-                        style: TextStyle(color: Colors.black)),
+                    child: const Text('Atrás'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const Step3Page()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF018648),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text('Siguiente'),
                   ),
                 ],
               ),
@@ -85,8 +105,8 @@ class PhotoUploadScreen extends StatelessWidget {
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         side: const BorderSide(
-          color: Color.fromARGB(255, 1, 134, 72),
-          width: 2,
+          color: Color(0xFF018648),
+          width: 1,
         ),
         backgroundColor: Colors.grey[200],
         shape: RoundedRectangleBorder(
