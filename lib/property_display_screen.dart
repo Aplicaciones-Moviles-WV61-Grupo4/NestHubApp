@@ -122,14 +122,9 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
                         onPressed: () {
                           // Handle reservation
                         },
-<<<<<<< HEAD
-                        child: const Text('Reservar'),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.teal),
-=======
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                         child: const Text('Reservar'),
->>>>>>> 6eaeda51b6a1984431d0bf8c7c752d45adb592f2
                       ),
                     ],
                   ),

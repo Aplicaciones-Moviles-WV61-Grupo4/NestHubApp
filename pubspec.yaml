@@ -45,3 +45,7 @@ flutter:
     - assets/profile_icons/problemas_seguridad.png
     - assets/profile_icons/publica_estado.png
     - assets/profile_icons/seguridad.png
+    - assets/profile_icons/explora.png
+    - assets/profile_icons/favoritos.png
+    - assets/profile_icons/mensajes.png
+    - assets/profile_icons/profile.png

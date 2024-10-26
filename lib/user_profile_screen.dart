@@ -171,19 +171,35 @@ class UserProfileScreen extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
+              icon: Image(
+                image: AssetImage('assets/profile_icons/explora.png'),
+                width: 24,
+                height: 24,
+              ),
               label: 'Explora',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
+              icon: Image(
+                image: AssetImage('assets/profile_icons/favoritos.png'),
+                width: 24,
+                height: 24,
+              ),
               label: 'Favoritos',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.message),
+              icon: Image(
+                image: AssetImage('assets/profile_icons/mensajes.png'),
+                width: 24,
+                height: 24,
+              ),
               label: 'Mensajes',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Image(
+                image: AssetImage('assets/profile_icons/profile.png'),
+                width: 24,
+                height: 24,
+              ),
               label: 'Perfil',
             ),
           ],
