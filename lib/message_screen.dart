@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/home_screen.dart';
+import 'package:nesthub/user_profile_screen.dart';
+import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});
@@ -88,42 +91,30 @@ class MessageScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage('assets/profile_icons/explora.png'),
-              width: 24,
-              height: 24,
-            ),
-            label: 'Explora',
-          ),
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage('assets/profile_icons/favoritos.png'),
-              width: 24,
-              height: 24,
-            ),
-            label: 'Favoritos',
-          ),
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage('assets/profile_icons/mensajes.png'),
-              width: 24,
-              height: 24,
-            ),
-            label: 'Mensajes',
-          ),
-          BottomNavigationBarItem(
-            icon: Image(
-              image: AssetImage('assets/profile_icons/profile.png'),
-              width: 24,
-              height: 24,
-            ),
-            label: 'Perfil',
-          ),
-        ],
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 2, // Establece el índice actual en Mensajes
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              // Navegar a la pantalla de inicio
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+              break;
+            case 1:
+              break;
+            case 2:
+              break;
+            case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen()),
+              );
+              break;
+          }
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nesthub/home_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -182,7 +183,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onPressed: _termsAccepted
                           ? () {
                               if (_formKey.currentState!.validate()) {
-                                // Process registration
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen()));
                               }
                             }
                           : null,

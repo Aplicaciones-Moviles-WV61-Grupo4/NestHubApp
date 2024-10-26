@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/home_screen.dart';
+import 'package:nesthub/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -41,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Ingresar su correo',
                           labelStyle: const TextStyle(color: Colors.black),
-                          hintText: 'correo eléctronico',
+                          hintText: 'correo electrónico',
                           hintStyle: TextStyle(color: Colors.grey[200]),
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 12),
@@ -76,7 +78,10 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      // Handle login
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()));
                     },
                     child: const Text(
                       'Continuar',
@@ -106,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 15),
                 _buildSocialButton(
                   asset: 'assets/login_icons/icon_facebook.png',
-                  text: 'Continuar con Facebook',
+                  text: 'Continuar con Facebo1ok',
                   color: Colors.grey[200]!,
                   borderColor: Colors.black,
                 ),
@@ -116,6 +121,14 @@ class LoginScreen extends StatelessWidget {
                   text: 'Registrarse',
                   color: Colors.grey[200]!,
                   borderColor: Colors.black,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegistrationScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -130,10 +143,11 @@ class LoginScreen extends StatelessWidget {
     required String text,
     required Color color,
     required Color borderColor,
+    void Function()? onPressed, // Agregar callback onPressed
   }) {
     return SizedBox(
       width: 290,
-      height: 35,
+      height: 50, // Aumentar la altura del botón
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           backgroundColor: color,
@@ -143,20 +157,22 @@ class LoginScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: () {
-          // Handle social login or registration
-        },
+        onPressed: onPressed ??
+            () {
+              // Handle social login or registration
+            },
         child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center, // Centrar contenido del botón
+          mainAxisAlignment: MainAxisAlignment.start, // Alinear al inicio
           children: [
             Image.asset(
               asset,
-              width: 20,
-              height: 18,
+              width: 24, // Aumentar el tamaño del ícono
+              height: 24, // Aumentar el tamaño del ícono
             ),
-            const SizedBox(width: 20),
-            Text(text),
+            const SizedBox(width: 15), // Espacio entre ícono y texto
+            Text(text,
+                style: const TextStyle(
+                    fontSize: 16, color: Colors.black)), // Texto negro
           ],
         ),
       ),

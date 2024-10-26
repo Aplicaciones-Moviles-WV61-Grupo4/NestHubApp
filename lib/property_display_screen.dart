@@ -21,6 +21,15 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detalles de la Propiedad'), // Título de la pantalla
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back), // Icono de flecha hacia atrás
+          onPressed: () {
+            Navigator.pop(context); // Regresar a la pantalla anterior
+          },
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/home_screen.dart';
 
 class PublishScreen extends StatelessWidget {
   const PublishScreen({super.key});
@@ -89,7 +90,12 @@ class PublishScreen extends StatelessWidget {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
                       foregroundColor: Colors.white,

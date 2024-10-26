@@ -31,7 +31,7 @@ class PublishingPage extends StatelessWidget {
                 title: 'Describe tu espacio',
                 description:
                     'Comparte algunos datos básicos, como la ubicación y cuántos huéspedes pueden quedarse.',
-                iconAsset: 'assets/steps_icons/step1.png',
+                iconAsset: 'assets/steps_icons/step_1/step1.png',
                 iconHeight: 80,
                 iconWidth: 90,
               ),
@@ -40,7 +40,7 @@ class PublishingPage extends StatelessWidget {
                 title: 'Destaca tu espacio',
                 description:
                     'Agrega al menos 5 fotos, un título y una descripción.',
-                iconAsset: 'assets/steps_icons/step2.png',
+                iconAsset: 'assets/steps_icons/step_2/step2.png',
               ),
               const SizedBox(height: 40),
               _buildStep(
@@ -57,8 +57,9 @@ class PublishingPage extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                      context, 
-                      MaterialPageRoute(builder: (context) => const Step1Page()),
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Step1Page()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -112,7 +113,9 @@ class PublishingPage extends StatelessWidget {
             ],
           ),
         ),
-        Image.asset(iconAsset, height: iconHeight, width: iconWidth), // Ajuste del tamaño del ícono
+        Image.asset(iconAsset,
+            height: iconHeight,
+            width: iconWidth), // Ajuste del tamaño del ícono
         const SizedBox(width: 20),
       ],
     );
