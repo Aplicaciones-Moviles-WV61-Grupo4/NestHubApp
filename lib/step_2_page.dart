@@ -58,7 +58,10 @@ class Step2Page extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Regresar a la página anterior
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const PublishingPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
