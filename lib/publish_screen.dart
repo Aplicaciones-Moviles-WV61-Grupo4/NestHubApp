@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/home_screen.dart';
+import 'package:nesthub/step_3_page.dart';
 
 class PublishScreen extends StatelessWidget {
   const PublishScreen({super.key});
@@ -7,6 +8,7 @@ class PublishScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -24,11 +26,12 @@ class PublishScreen extends StatelessWidget {
               const Text(
                 'Vista previa, esto es lo que le mostraremos a los huéspedes. Asegúrate que todo luzca bien.',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: Colors.black87,
                 ),
               ),
               const SizedBox(height: 24),
               Card(
+                color: Colors.grey[200],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,7 +79,10 @@ class PublishScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Handle back action
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const Step3Page()),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF01698C)),

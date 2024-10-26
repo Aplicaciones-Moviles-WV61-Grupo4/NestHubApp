@@ -57,7 +57,10 @@ class Step3Page extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const PublishingPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey, // Color del botón Atrás
