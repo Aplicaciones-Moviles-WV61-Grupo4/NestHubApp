@@ -57,11 +57,7 @@ class PhotoUploadScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Step2Page()),
-                      );
+                      Navigator.pop(context); // Regresar a la página anterior
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF018648)),

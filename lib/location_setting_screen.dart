@@ -55,7 +55,9 @@ class LocationSettingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context); // Regresar a la página anterior
+                    },
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(

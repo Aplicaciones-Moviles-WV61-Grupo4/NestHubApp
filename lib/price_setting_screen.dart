@@ -56,11 +56,7 @@ class PriceSettingScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Step3Page()),
-                      );
+                      Navigator.pop(context); // Regresar a la página anterior
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF01698C)),

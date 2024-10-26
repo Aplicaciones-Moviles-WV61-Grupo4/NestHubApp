@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:nesthub/step_3_page.dart'; // Ensure this import is correct for your project
 
 class PublishScreen extends StatelessWidget {
   const PublishScreen({super.key});
