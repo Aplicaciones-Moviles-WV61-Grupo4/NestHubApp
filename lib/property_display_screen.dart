@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PropertyDisplayScreen extends StatefulWidget {
+  const PropertyDisplayScreen({super.key});
+
   @override
   _PropertyDisplayScreenState createState() => _PropertyDisplayScreenState();
 }
@@ -83,7 +85,7 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
                   const SizedBox(height: 8),
                   const Text('Barranco, Lima, Perú'),
                   const SizedBox(height: 8),
-                  Container(
+                  SizedBox(
                     height: 200,
                     child: GoogleMap(
                       onMapCreated: _onMapCreated,
@@ -120,9 +122,14 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
                         onPressed: () {
                           // Handle reservation
                         },
+<<<<<<< HEAD
                         child: const Text('Reservar'),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.teal),
+=======
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                        child: const Text('Reservar'),
+>>>>>>> 6eaeda51b6a1984431d0bf8c7c752d45adb592f2
                       ),
                     ],
                   ),

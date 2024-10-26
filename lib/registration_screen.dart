@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -168,8 +170,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             }
                           }
                         : null,
-                    child: const Text('Aceptar y continuar',
-                     style: TextStyle(color: Colors.white),),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -177,6 +177,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
+                    child: const Text('Aceptar y continuar',
+                     style: TextStyle(color: Colors.white),),
                   ),
                 ),
               ],

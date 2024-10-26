@@ -104,7 +104,7 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
       {required String imagePath,
       required String label,
       required VoidCallback onPressed}) {
-    return Container(
+    return SizedBox(
       height: 120, // Aumenta la altura del contenedor
       child: OutlinedButton(
         onPressed: onPressed,

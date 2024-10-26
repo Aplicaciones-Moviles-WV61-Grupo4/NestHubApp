@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Importar FilteringTextInputFormatter
+import 'package:flutter/services.dart';
+import 'package:nesthub/step_3_page.dart'; // Importar FilteringTextInputFormatter
 
 class PriceSettingScreen extends StatelessWidget {
   const PriceSettingScreen({super.key});
@@ -53,7 +54,19 @@ class PriceSettingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const Step3Page()),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF01698C)),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
