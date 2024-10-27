@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/user_profile_screen.dart';
 
 class NotificacionScreen extends StatefulWidget {
   const NotificacionScreen({super.key});
@@ -72,7 +73,13 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                       ),
                       const Spacer(),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UserProfileScreen())
+                            );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFB44101),
                           minimumSize: const Size(double.infinity, 50),
@@ -87,7 +94,13 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                       ),
                       const SizedBox(height: 16),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UserProfileScreen())
+                            );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(
                             color: Color(0xFFB44101),
