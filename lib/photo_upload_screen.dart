@@ -16,35 +16,31 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
   List<File> _images = [];
 
   Future<void> _pickImage(ImageSource source) async {
-    if (source == ImageSource.camera) {
+    if (source == ImageSource.gallery) {
       await _openGallery();
-    } else {
-      await _openCamera();
+    } else if (source == ImageSource.camera) {
+      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          _images.add(File(pickedFile.path));
+        });
+      }
     }
   }
 
-  Future<void> _openGallery() async {
-   final permitted = await PhotoManager.requestPermissionExtend();
-   if (!permitted.isAuth) return;
+    Future<void> _openGallery() async {
+    final permitted = await PhotoManager.requestPermissionExtend();
+    if (!permitted.isAuth) return;
 
-   final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(onlyAll: true);
-   if (albums.isEmpty) return;
+    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(onlyAll: true);
+    if (albums.isEmpty) return;
 
-   final List<AssetEntity> assets = await albums[0].getAssetListPaged(page: 0, size: 80);
-   final List<File?> files = await Future.wait(assets.map((asset) => asset.file));
+    final List<AssetEntity> assets = await albums[0].getAssetListPaged(page: 0, size: 80);
+    final List<File?> files = await Future.wait(assets.map((asset) => asset.file));
 
-   setState(() {
-     _images.addAll(files.whereType<File>());
-   });
-  }
-
-  Future<void> _openCamera() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      setState(() {
-      _images.add(File(pickedFile.path));
-      });
-    } 
+    setState(() {
+      _images.addAll(files.whereType<File>());
+    });
   }
 
   @override
@@ -92,7 +88,6 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   onPressed: () { _pickImage(ImageSource.camera); },
                 ),
               ),
-              const Spacer(),
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
