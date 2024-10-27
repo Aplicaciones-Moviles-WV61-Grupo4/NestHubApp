@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:nesthub/features/local/data/remote/local_model.dart';
 
-class PropertyDisplayScreen extends StatefulWidget {
-  const PropertyDisplayScreen({super.key});
-
-  @override
-  _PropertyDisplayScreenState createState() => _PropertyDisplayScreenState();
-}
-
-class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
-  late GoogleMapController mapController;
+class PropertyDisplayScreen extends StatelessWidget {
+  const PropertyDisplayScreen({super.key, required this.localModel});
+  final LocalModel localModel;
 
   final LatLng _center =
-      const LatLng(-12.1416, -77.0219); // Barranco, Lima coordinates
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+      const LatLng(-12.1416, -77.0219); // Coordenadas de Barranco, Lima
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalles de la Propiedad'), // Título de la pantalla
@@ -37,18 +30,20 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
             padding: const EdgeInsets.all(16.0),
             children: [
               // Imagen (si es necesario)
-              // Image.network(
-              //   'https://example.com/loft-image.jpg',
-              //   height: 250,
-              //   width: double.infinity,
-              //   fit: BoxFit.cover,
-              // ),
-              const Text(
-                'Loft en Barranco - Casa Urbana',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Image.network(
+                localModel.photoUrl,
+                height: height * 0.25,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              Text(
+                localModel.streetAddress, // Cambiado para usar streetAddress
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text('Vivienda rentada entero en Lima, Perú'),
+              Text(localModel.cityPlace, // Cambiado para usar cityPlace
+                  style: const TextStyle(fontSize: 16)),
               const Text('4 huéspedes · 1 habitación · 2 camas · 1 baño'),
               const SizedBox(height: 16),
               const Row(
@@ -71,8 +66,10 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
               const Text('Descripción',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              const Text(
-                  'Apartamento de 1 dormitorio con aire acondicionado con vista parcial al mar, una ubicación fantástica, situado en el corazón de Barranco. El apartamento tiene una puerta bohemia y tradicional.'),
+              Text(
+                  localModel
+                      .descriptionMessage, // Cambiado para usar descriptionMessage
+                  style: const TextStyle(fontSize: 14)),
               const SizedBox(height: 16),
               const Text('Qué servicios ofrece',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -92,7 +89,7 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
               SizedBox(
                 height: 200,
                 child: GoogleMap(
-                  onMapCreated: _onMapCreated,
+                  onMapCreated: (GoogleMapController controller) {},
                   initialCameraPosition: CameraPosition(
                     target: _center,
                     zoom: 15.0,
@@ -119,12 +116,13 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('\$35 / noche',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                      '${localModel.nightPrice} / noche', // Cambiado para usar nightPrice
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle reservation
+                      // Manejar la reserva
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
@@ -146,7 +144,7 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
     );
   }
 
-  Widget _buildFeature(IconData icon, String title, String description) {
+  static Widget _buildFeature(IconData icon, String title, String description) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
@@ -169,7 +167,7 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
     );
   }
 
-  Widget _buildAmenity(IconData icon, String name) {
+  static Widget _buildAmenity(IconData icon, String name) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
@@ -182,7 +180,7 @@ class _PropertyDisplayScreenState extends State<PropertyDisplayScreen> {
     );
   }
 
-  Widget _buildReview(String name, String comment) {
+  static Widget _buildReview(String name, String comment) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Column(

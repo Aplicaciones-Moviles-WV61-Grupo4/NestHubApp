@@ -69,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // Property type buttons with images
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
@@ -110,10 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   final model = _models[index];
                   return _buildPropertyListing(
-                    model.streetAddress,
-                    model.descriptionMessage,
-                    'S/. ${model.nightPrice} /noche',
-                    model.photoUrl,
+                    model,
                     context,
                   );
                 },
@@ -176,14 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPropertyListing(String streetAddress, String descriptionMessage,
-      String nightPrice, String photoUrl, BuildContext context) {
+  Widget _buildPropertyListing(LocalModel model, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const PropertyDisplayScreen(),
+            builder: (context) =>
+                PropertyDisplayScreen(localModel: model), // Pass the LocalModel
           ),
         );
       },
@@ -192,17 +188,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(photoUrl,
+            Image.network(model.photoUrl,
                 height: 200, width: double.infinity, fit: BoxFit.cover),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(streetAddress,
+                  Text(model.streetAddress,
                       style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(descriptionMessage),
-                  Text(nightPrice,
+                  Text(model.descriptionMessage),
+                  Text('S/. ${model.nightPrice} /noche',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
