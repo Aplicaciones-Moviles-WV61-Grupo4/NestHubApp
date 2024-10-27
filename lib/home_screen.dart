@@ -1,11 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/core/app_constants.dart';
+import 'package:nesthub/features/local/data/remote/local_model.dart';
+import 'package:nesthub/features/local/data/remote/local_service.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/user_profile_screen.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
 import 'package:nesthub/property_display_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<LocalModel> _models = [];
+
+  Future<void> _loadData() async {
+    try {
+      print(
+          'Cargando datos desde: ${AppConstants.baseUrl}${AppConstants.localsEndpoint}');
+      List<LocalModel> models = await LocalService().getLocals();
+      setState(() {
+        _models = models;
+      });
+    } catch (e) {
+      print('Error al cargar datos: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,23 +105,18 @@ class HomeScreen extends StatelessWidget {
             ),
             // Property listings
             Expanded(
-              child: ListView(
-                children: [
-                  _buildPropertyListing(
-                    'Loft en Barranco',
-                    'Departamento Estreno en Barranco',
-                    'S/. 254 /noche',
-                    'assets/home_images/barranco.png',
+              child: ListView.builder(
+                itemCount: _models.length,
+                itemBuilder: (context, index) {
+                  final model = _models[index];
+                  return _buildPropertyListing(
+                    model.streetAddress,
+                    model.descriptionMessage,
+                    'S/. ${model.nightPrice} /noche',
+                    model.photoUrl,
                     context,
-                  ),
-                  _buildPropertyListing(
-                    'Magdalena del Mar, Lima',
-                    'Salón elegante',
-                    'S/. 89 /hora',
-                    'assets/home_images/magdalena.png',
-                    context,
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ],
@@ -152,8 +176,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPropertyListing(String title, String subtitle, String price,
-      String imageUrl, BuildContext context) {
+  Widget _buildPropertyListing(String streetAddress, String descriptionMessage,
+      String nightPrice, String photoUrl, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -168,17 +192,17 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(imageUrl,
+            Image.network(photoUrl,
                 height: 200, width: double.infinity, fit: BoxFit.cover),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
+                  Text(streetAddress,
                       style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(subtitle),
-                  Text(price,
+                  Text(descriptionMessage),
+                  Text(nightPrice,
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
