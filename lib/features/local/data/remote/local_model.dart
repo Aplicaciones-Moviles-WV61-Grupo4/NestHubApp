@@ -6,6 +6,7 @@ class LocalModel {
   final int nightPrice;
   final String photoUrl;
   final String descriptionMessage;
+  final int localCategoryId; // Agregar este campo
 
   LocalModel({
     required this.id,
@@ -15,6 +16,7 @@ class LocalModel {
     required this.nightPrice,
     required this.photoUrl,
     required this.descriptionMessage,
+    required this.localCategoryId, // Incluir en el constructor
   });
 
   factory LocalModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,8 @@ class LocalModel {
       nightPrice: json['local']['nightPrice'] ?? 0,
       photoUrl: json['local']['photoUrl'] ?? '',
       descriptionMessage: json['local']['descriptionMessage'] ?? '',
+      localCategoryId: json['local']['localCategory']['id'] ??
+          0, // Obtener el ID de la categoría
     );
   }
 }

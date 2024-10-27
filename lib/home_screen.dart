@@ -18,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<LocalModel> _models = [];
   List<LocalModel> _filteredModels = [];
   final TextEditingController _searchController = TextEditingController();
+  String _selectedType = "Todos";
 
   Future<void> _loadData() async {
     try {
@@ -34,19 +35,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _filterModels(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        _filteredModels = _models;
-      });
-    } else {
-      setState(() {
+    setState(() {
+      if (query.isEmpty) {
         _filteredModels = _models.where((model) {
-          return model.streetAddress
-              .toLowerCase()
-              .contains(query.toLowerCase());
+          return _selectedType == "Todos" || model.localType == _selectedType;
         }).toList();
-      });
-    }
+      } else {
+        _filteredModels = _models.where((model) {
+          return (model.streetAddress
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) &&
+              (_selectedType == "Todos" || model.localType == _selectedType));
+        }).toList();
+      }
+    });
+  }
+
+  void _filterByType(String localType) {
+    setState(() {
+      _selectedType = localType;
+      _filteredModels = _models.where((model) {
+        return localType == "Todos" || model.localType == _selectedType;
+      }).toList();
+    });
   }
 
   @override
@@ -71,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Search bar
+            // Barra de búsqueda
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Container(
@@ -89,8 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         controller: _searchController,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Lima',
-                          suffixText: '15 sept.',
+                          hintText: 'Buscar...',
                         ),
                       ),
                     ),
@@ -98,49 +108,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            // Botones de tipo de propiedad
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildPropertyTypeButton(
-                    'Destacados',
-                    'assets/home_images/image_destacado.png',
-                    context,
-                  ),
-                  _buildPropertyTypeButton(
-                    'Salones',
-                    'assets/home_images/image_salon_elegante.png',
-                    context,
-                  ),
-                  _buildPropertyTypeButton(
-                    'Casa de playa',
-                    'assets/home_images/image_casa_playa.png',
-                    context,
-                  ),
-                  _buildPropertyTypeButton(
-                    'Casas urbanas',
-                    'assets/home_images/image_casa_urbana.png',
-                    context,
-                  ),
-                  _buildPropertyTypeButton(
-                    'Casas de campo',
-                    'assets/home_images/image_casa_campo.png',
-                    context,
-                  ),
+                  _buildPropertyTypeButton('Destacados',
+                      'assets/home_images/image_destacado.png', context,
+                      localType: 'Todos'),
+                  _buildPropertyTypeButton('Salones',
+                      'assets/home_images/image_salon_elegante.png', context,
+                      localType: 'Salón Elegante'),
+                  _buildPropertyTypeButton('Casa de playa',
+                      'assets/home_images/image_casa_playa.png', context,
+                      localType: 'Casa de Playa'),
+                  _buildPropertyTypeButton('Casas urbanas',
+                      'assets/home_images/image_casa_urbana.png', context,
+                      localType: 'Casa Urbana'),
+                  _buildPropertyTypeButton('Casas de campo',
+                      'assets/home_images/image_casa_campo.png', context,
+                      localType: 'Casa de Campo'),
                 ],
               ),
             ),
-            // Property listings
+            // Listado de propiedades
             Expanded(
               child: ListView.builder(
                 itemCount: _filteredModels.length,
                 itemBuilder: (context, index) {
                   final model = _filteredModels[index];
-                  return _buildPropertyListing(
-                    model,
-                    context,
-                  );
+                  return _buildPropertyListing(model, context);
                 },
               ),
             ),
@@ -158,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
               break;
             case 1:
-              break;
+              break; // Implementa la navegación a la pantalla correspondiente
             case 2:
               Navigator.push(
                 context,
@@ -178,8 +176,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Método para construir los botones de tipo de propiedad
   Widget _buildPropertyTypeButton(
-      String label, String imageUrl, BuildContext context) {
+      String label, String imageUrl, BuildContext context,
+      {required String localType}) {
     return Column(
       children: [
         TextButton(
@@ -187,7 +187,9 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(0),
             backgroundColor: Colors.transparent,
           ),
-          onPressed: () {},
+          onPressed: () {
+            _filterByType(localType);
+          },
           child: Column(
             children: [
               Image.asset(imageUrl, width: 50, height: 50),
@@ -201,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Método para construir cada listado de propiedad
   Widget _buildPropertyListing(LocalModel model, BuildContext context) {
     return GestureDetector(
       onTap: () {
