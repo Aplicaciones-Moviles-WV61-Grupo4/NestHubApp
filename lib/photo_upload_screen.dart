@@ -19,28 +19,32 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
     if (source == ImageSource.camera) {
       await _openGallery();
     } else {
-      final XFile? pickedFile = await _picker.pickImage(source: source);
-      if (pickedFile != null) {
-        setState(() {
-          _images.add(File(pickedFile.path));
-        });
-      }
+      await _openCamera();
     }
   }
 
-    Future<void> _openGallery() async {
-    final permitted = await PhotoManager.requestPermissionExtend();
-    if (!permitted.isAuth) return;
+  Future<void> _openGallery() async {
+   final permitted = await PhotoManager.requestPermissionExtend();
+   if (!permitted.isAuth) return;
 
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(onlyAll: true);
-    if (albums.isEmpty) return;
+   final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(onlyAll: true);
+   if (albums.isEmpty) return;
 
-    final List<AssetEntity> assets = await albums[0].getAssetListPaged(page: 0, size: 80);
-    final List<File?> files = await Future.wait(assets.map((asset) => asset.file));
+   final List<AssetEntity> assets = await albums[0].getAssetListPaged(page: 0, size: 80);
+   final List<File?> files = await Future.wait(assets.map((asset) => asset.file));
 
-    setState(() {
-      _images.addAll(files.whereType<File>());
-    });
+   setState(() {
+     _images.addAll(files.whereType<File>());
+   });
+  }
+
+  Future<void> _openCamera() async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+      _images.add(File(pickedFile.path));
+      });
+    } 
   }
 
   @override
