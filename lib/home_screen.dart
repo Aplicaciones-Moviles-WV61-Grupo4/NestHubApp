@@ -16,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<LocalModel> _models = [];
+  List<LocalModel> _filteredModels = [];
+  final TextEditingController _searchController = TextEditingController();
 
   Future<void> _loadData() async {
     try {
@@ -24,9 +26,26 @@ class _HomeScreenState extends State<HomeScreen> {
       List<LocalModel> models = await LocalService().getLocals();
       setState(() {
         _models = models;
+        _filteredModels = models;
       });
     } catch (e) {
       print('Error al cargar datos: $e');
+    }
+  }
+
+  void _filterModels(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        _filteredModels = _models;
+      });
+    } else {
+      setState(() {
+        _filteredModels = _models.where((model) {
+          return model.streetAddress
+              .toLowerCase()
+              .contains(query.toLowerCase());
+        }).toList();
+      });
     }
   }
 
@@ -34,6 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadData();
+    _searchController.addListener(() {
+      _filterModels(_searchController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,13 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(Icons.search, color: Colors.blue),
-                    SizedBox(width: 8),
+                    const Icon(Icons.search, color: Colors.blue),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: _searchController,
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Lima',
                           suffixText: '15 sept.',
@@ -105,9 +134,9 @@ class _HomeScreenState extends State<HomeScreen> {
             // Property listings
             Expanded(
               child: ListView.builder(
-                itemCount: _models.length,
+                itemCount: _filteredModels.length,
                 itemBuilder: (context, index) {
-                  final model = _models[index];
+                  final model = _filteredModels[index];
                   return _buildPropertyListing(
                     model,
                     context,
@@ -178,8 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                PropertyDisplayScreen(localModel: model), // Pass the LocalModel
+            builder: (context) => PropertyDisplayScreen(localModel: model),
           ),
         );
       },
