@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class LocalService {
   Future<List<LocalModel>> getLocals() async {
-    final response = await http.get(Uri.parse(AppConstants.baseUrl));
+    final response = await http.get(Uri.parse(AppConstants.baseUrl+AppConstants.localsEndpoint));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);

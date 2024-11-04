@@ -4,7 +4,7 @@ import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
 import 'package:nesthub/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
-
+import 'package:nesthub/login_screen.dart';
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
 
@@ -177,7 +177,14 @@ class UserProfileScreen extends StatelessWidget {
                   'Licencias de código abierto', () {}),
               const SizedBox(height: 20),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
+                },
                 child: const Text('Cerrar sesión'),
               ),
               const SizedBox(height: 20),
