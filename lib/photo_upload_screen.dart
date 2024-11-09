@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'dart:io';
-import 'package:nesthub/title_description_screen.dart';
+
+import 'package:firebase_storage/firebase_storage.dart'; // Importa Firebase Storage
+import 'package:nesthub/title_description_screen.dart'; // Importa la pantalla siguiente
 
 class PhotoUploadScreen extends StatefulWidget {
-  const PhotoUploadScreen({super.key});
+  final String district;
+  final String city;
+  final String street;
+  final int localCategoryId;
+
+  const PhotoUploadScreen({
+    super.key,
+    required this.district,
+    required this.city,
+    required this.street,
+    required this.localCategoryId,
+  });
 
   @override
   State<PhotoUploadScreen> createState() => _PhotoUploadScreenState();
@@ -13,34 +25,56 @@ class PhotoUploadScreen extends StatefulWidget {
 
 class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
   final ImagePicker _picker = ImagePicker();
-  List<File> _images = [];
+  List<File> _images = []; // Lista para guardar las imágenes seleccionadas
+  String _imageUrl = ''; // Variable para almacenar la URL de Firebase Storage
 
+  // Asignación de imagen por defecto
+  final String defaultPhotoUrl =
+      'https://a0.muscache.com/im/pictures/e1e59d29-9c6a-4f81-9a73-7b805470ad84.jpg?im_w=720';
+
+  // Método para seleccionar una imagen desde la galería o la cámara
   Future<void> _pickImage(ImageSource source) async {
-    if (source == ImageSource.gallery) {
-      await _openGallery();
-    } else if (source == ImageSource.camera) {
-      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        setState(() {
-          _images.add(File(pickedFile.path));
-        });
-      }
+    final XFile? pickedFile =
+        await _picker.pickImage(source: source); // Abrimos la cámara o galería
+
+    if (pickedFile != null) {
+      setState(() {
+        _images.add(File(
+            pickedFile.path)); // Añadimos la imagen seleccionada a la lista
+      });
+
+      // Subir la imagen a Firebase Storage
+      await _uploadImage(File(pickedFile.path));
     }
   }
 
-    Future<void> _openGallery() async {
-    final permitted = await PhotoManager.requestPermissionExtend();
-    if (!permitted.isAuth) return;
+  // Subir imagen a Firebase Storage
+  Future<void> _uploadImage(File imageFile) async {
+    try {
+      // Crear una referencia única para la imagen en Firebase Storage
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageRef =
+          FirebaseStorage.instance.ref().child('images/$fileName.jpg');
 
-    final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(onlyAll: true);
-    if (albums.isEmpty) return;
+      // Subir la imagen a Firebase Storage
+      UploadTask uploadTask = storageRef.putFile(imageFile);
 
-    final List<AssetEntity> assets = await albums[0].getAssetListPaged(page: 0, size: 80);
-    final List<File?> files = await Future.wait(assets.map((asset) => asset.file));
+      // Esperar que la subida se complete
+      await uploadTask;
 
-    setState(() {
-      _images.addAll(files.whereType<File>());
-    });
+      // Obtener la URL de descarga de la imagen subida
+      String downloadUrl = await storageRef.getDownloadURL();
+
+      print('Imagen subida con éxito! URL: $downloadUrl');
+
+      // Aquí puedes usar el downloadUrl para hacer lo que necesites
+      setState(() {
+        // Almacena la URL de descarga de la imagen
+        _imageUrl = downloadUrl; // Guarda la URL de Firebase
+      });
+    } catch (e) {
+      print('Error al subir la imagen: $e');
+    }
   }
 
   @override
@@ -62,7 +96,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Para empezar, necesitarás cuatro fotos. Después podrás agregar más o hacer cambios',
+                'Para empezar, necesitarás cuatro fotos. Después podrás agregar más o hacer cambios.',
                 style: TextStyle(
                   fontSize: 16,
                   color: Color.fromARGB(255, 61, 61, 61),
@@ -75,7 +109,9 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   context,
                   imagePath: 'assets/photo_upload_icons/agregar_fotos.png',
                   label: 'Agrega fotos',
-                  onPressed: () { _pickImage(ImageSource.gallery); },
+                  onPressed: () {
+                    _pickImage(ImageSource.gallery); // Llamamos a la galería
+                  },
                 ),
               ),
               const SizedBox(height: 8),
@@ -85,9 +121,13 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   context,
                   imagePath: 'assets/photo_upload_icons/foto_nueva.png',
                   label: 'Toma fotos nuevas',
-                  onPressed: () { _pickImage(ImageSource.camera); },
+                  onPressed: () {
+                    _pickImage(ImageSource.camera); // Llamamos a la cámara
+                  },
                 ),
               ),
+              const SizedBox(height: 24),
+              // Mostramos las imágenes seleccionadas en un GridView
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -121,11 +161,20 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      // Enviar la URL de la imagen y otros datos a la siguiente pantalla
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const TitleDescriptionScreen()),
+                          builder: (context) => TitleDescriptionScreen(
+                            photoUrl: _images.isEmpty
+                                ? defaultPhotoUrl
+                                : _imageUrl, // Usamos la URL de Firebase Storage
+                            district: widget.district,
+                            city: widget.city,
+                            street: widget.street,
+                            localCategoryId: widget.localCategoryId,
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -148,6 +197,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
     );
   }
 
+  // Método auxiliar para crear los botones de agregar fotos
   Widget _buildPhotoButton(BuildContext context,
       {required String imagePath,
       required String label,

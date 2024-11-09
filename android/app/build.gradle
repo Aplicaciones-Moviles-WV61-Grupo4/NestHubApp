@@ -39,6 +39,5 @@ android {
     }
 }
 
-flutter {
-    source = "../.."
-}
+// Asegúrate de aplicar el plugin de Google Services
+apply plugin: 'com.google.gms.google-services'  // Aquí está la línea para aplicar el plugin de Firebase

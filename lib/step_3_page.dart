@@ -3,7 +3,24 @@ import 'package:nesthub/price_setting_screen.dart';
 import 'package:nesthub/publishing_page.dart';
 
 class Step3Page extends StatelessWidget {
-  const Step3Page({super.key});
+  final String district;
+  final String city;
+  final String street;
+  final int localCategoryId;
+  final String photoUrl;
+  final String title;
+  final String description;
+
+  const Step3Page({
+    super.key,
+    required this.district,
+    required this.city,
+    required this.street,
+    required this.localCategoryId,
+    required this.photoUrl,
+    required this.title,
+    required this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +67,6 @@ class Step3Page extends StatelessWidget {
                   color: Colors.black54,
                 ),
               ),
-
               const Spacer(), // Espacio flexible para empujar los botones hacia abajo
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,8 +74,9 @@ class Step3Page extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const PublishingPage()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PublishingPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -80,7 +97,16 @@ class Step3Page extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PriceSettingScreen()),
+                          builder: (context) => PriceSettingScreen(
+                            district: district,
+                            city: city,
+                            street: street,
+                            localCategoryId: localCategoryId,
+                            photoUrl: photoUrl,
+                            title: title,
+                            description: description,
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(

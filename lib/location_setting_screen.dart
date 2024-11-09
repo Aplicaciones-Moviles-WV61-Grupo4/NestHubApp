@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nesthub/address_confirmation_screen.dart';
-import 'package:nesthub/space_type_selection_screen.dart';
 import 'package:nesthub/step_1_page.dart';
 
 class LocationSettingScreen extends StatefulWidget {
-  const LocationSettingScreen({super.key});
+  final int localCategoryId; // Añade este parámetro
+
+  const LocationSettingScreen(
+      {super.key, required this.localCategoryId}); // Modifica el constructor
 
   @override
   _LocationSettingScreenState createState() => _LocationSettingScreenState();
@@ -14,11 +16,19 @@ class LocationSettingScreen extends StatefulWidget {
 class _LocationSettingScreenState extends State<LocationSettingScreen> {
   late GoogleMapController mapController;
 
-  final LatLng _initialPosition =
-      const LatLng(-12.1416, -77.0219); // Barranco, Lima coordinates
+  final LatLng _initialPosition = const LatLng(-12.1416, -77.0219);
+
+  // Controlador para el campo de street
+  final TextEditingController _streetController = TextEditingController();
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  @override
+  void dispose() {
+    _streetController.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,9 +57,11 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Ingresa la dirección',
+              // Campo de texto para street
+              TextField(
+                controller: _streetController,
+                decoration: const InputDecoration(
+                  labelText: 'Ingresa la calle',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -74,8 +86,7 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const Step1Page()),
+                            builder: (context) => const Step1Page()),
                       );
                     },
                     style: OutlinedButton.styleFrom(
@@ -91,11 +102,17 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      String street = _streetController.text;
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const AddressConfirmationScreen()),
+                          builder: (context) => AddressConfirmationScreen(
+                            street: street,
+                            localCategoryId: widget
+                                .localCategoryId, // Pasa el localCategoryId aquí
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(

@@ -14,6 +14,10 @@ dependencies:
   image_picker: ^0.8.4+4
   photo_manager: ^3.5.2
   http: ^1.2.2
+  path_provider: ^2.0.11
+  permission_handler: ^10.2.0
+  firebase_core: ^2.7.0 # Usa la versión más reciente disponible
+  firebase_storage: ^11.0.0
 
 dev_dependencies:
   flutter_test:

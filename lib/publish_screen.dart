@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/home_screen.dart';
-import 'package:nesthub/step_3_page.dart';
+import 'package:nesthub/features/local/data/remote/local_data.dart';
 
 class PublishScreen extends StatelessWidget {
-  const PublishScreen({super.key});
+  final LocalData localData;
+
+  const PublishScreen({super.key, required this.localData});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class PublishScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Vista previa, esto es lo que le mostraremos a los huéspedes. Asegúrate que todo luzca bien.',
+                'Vista previa, esto es lo que le mostraremos a los huéspedes. Asegúrate de que todo luzca bien.',
                 style: TextStyle(
                   color: Colors.black87,
                 ),
@@ -40,30 +42,37 @@ class PublishScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(8)),
-                        child: Image.asset(
-                          'assets/profile_icons/publish.png', // Updated to use the local asset
+                        child: Image.network(
+                          localData.photoUrl, // Usa la URL de la foto ingresada
                           fit: BoxFit.cover,
                           height: 300,
                           width: double.infinity,
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Casa de playa - Asia',
-                            style: TextStyle(
+                            localData.title, // Muestra el título
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
-                            'S/. 105 noche',
-                            style: TextStyle(
+                            'S/. ${localData.price} noche', // Muestra el precio
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '${localData.street}, ${localData.district}, ${localData.city}', // Muestra la dirección completa
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
@@ -79,10 +88,7 @@ class PublishScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context) => const Step3Page()),
-                      );
+                      Navigator.pop(context);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF01698C)),

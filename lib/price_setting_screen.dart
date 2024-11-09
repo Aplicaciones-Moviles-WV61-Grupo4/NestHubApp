@@ -1,10 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nesthub/features/local/data/remote/local_data.dart';
+import 'package:nesthub/features/local/data/remote/local_service.dart';
 import 'package:nesthub/publish_screen.dart';
-import 'package:nesthub/step_3_page.dart'; // Importar FilteringTextInputFormatter
+import 'package:nesthub/features/local/data/remote/local_model.dart';
 
-class PriceSettingScreen extends StatelessWidget {
-  const PriceSettingScreen({super.key});
+class PriceSettingScreen extends StatefulWidget {
+  final String district;
+  final String city;
+  final String street;
+  final int localCategoryId;
+  final String photoUrl;
+  final String title;
+  final String description;
+
+  const PriceSettingScreen({
+    super.key,
+    required this.district,
+    required this.city,
+    required this.street,
+    required this.localCategoryId,
+    required this.photoUrl,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  _PriceSettingScreenState createState() => _PriceSettingScreenState();
+}
+
+class _PriceSettingScreenState extends State<PriceSettingScreen> {
+  final TextEditingController _priceController = TextEditingController();
+  final LocalService _localService = LocalService();
+
+  Future<void> _submitData() async {
+    final String price = _priceController.text;
+
+    final localData = LocalData(
+      district: widget.district,
+      street: widget.street,
+      title: widget.title,
+      city: widget.city,
+      price: int.parse(price),
+      photoUrl: widget.photoUrl,
+      descriptionMessage: widget.description,
+      localCategoryId: widget.localCategoryId,
+      userId: 1,
+    );
+
+    try {
+      // Realiza el push del modelo usando el servicio
+      await _localService.pushLocal(localData);
+      // Redirecciona a la pantalla de publicación después de la respuesta exitosa
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PublishScreen(localData: localData),
+        ),
+      );
+    } catch (e) {
+      // Muestra un mensaje de error si falla el push
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al crear el local: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +93,7 @@ class PriceSettingScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               TextField(
+                controller: _priceController,
                 decoration: const InputDecoration(
                   labelText: 'Ingresa el precio',
                   border: OutlineInputBorder(),
@@ -70,13 +131,8 @@ class PriceSettingScreen extends StatelessWidget {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PublishScreen()),
-                      );
-                    },
+                    onPressed:
+                        _submitData, // Llamar a la función para enviar datos
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
                       foregroundColor: Colors.white,

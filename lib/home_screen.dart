@@ -18,12 +18,11 @@ class _HomeScreenState extends State<HomeScreen> {
   List<LocalModel> _models = [];
   List<LocalModel> _filteredModels = [];
   final TextEditingController _searchController = TextEditingController();
-  String _selectedType = "Todos";
+  int _selectedCategoryId = 0;
 
   Future<void> _loadData() async {
     try {
-      print(
-          'Cargando datos desde: ${AppConstants.baseUrl}${AppConstants.localsEndpoint}');
+      print('Cargando datos desde: ${AppConstants.baseUrl}');
       List<LocalModel> models = await LocalService().getLocals();
       setState(() {
         _models = models;
@@ -38,24 +37,24 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       if (query.isEmpty) {
         _filteredModels = _models.where((model) {
-          return _selectedType == "Todos" || model.localType == _selectedType;
+          return _selectedCategoryId == 0 ||
+              model.localCategoryId == _selectedCategoryId;
         }).toList();
       } else {
         _filteredModels = _models.where((model) {
-          return (model.streetAddress
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) &&
-              (_selectedType == "Todos" || model.localType == _selectedType));
+          return (model.title.toLowerCase().contains(query.toLowerCase()) &&
+              (_selectedCategoryId == 0 ||
+                  model.localCategoryId == _selectedCategoryId));
         }).toList();
       }
     });
   }
 
-  void _filterByType(String localType) {
+  void _filterByCategory(int categoryId) {
     setState(() {
-      _selectedType = localType;
+      _selectedCategoryId = categoryId;
       _filteredModels = _models.where((model) {
-        return localType == "Todos" || model.localType == _selectedType;
+        return categoryId == 0 || model.localCategoryId == _selectedCategoryId;
       }).toList();
     });
   }
@@ -108,27 +107,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // Botones de tipo de propiedad
+            // Botones de tipo de propiedad por Categoría
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildPropertyTypeButton('Destacados',
+                  _buildPropertyTypeButton('Todos',
                       'assets/home_images/image_destacado.png', context,
-                      localType: 'Todos'),
-                  _buildPropertyTypeButton('Salones',
+                      categoryId: 0),
+                  _buildPropertyTypeButton('Salones Elegantes',
                       'assets/home_images/image_salon_elegante.png', context,
-                      localType: 'Salón Elegante'),
-                  _buildPropertyTypeButton('Casa de playa',
+                      categoryId: 3),
+                  _buildPropertyTypeButton('Casas de Playa',
                       'assets/home_images/image_casa_playa.png', context,
-                      localType: 'Casa de Playa'),
-                  _buildPropertyTypeButton('Casas urbanas',
+                      categoryId: 1),
+                  _buildPropertyTypeButton('Casas Urbanas',
                       'assets/home_images/image_casa_urbana.png', context,
-                      localType: 'Casa Urbana'),
-                  _buildPropertyTypeButton('Casas de campo',
+                      categoryId: 2),
+                  _buildPropertyTypeButton('Casas de Campo',
                       'assets/home_images/image_casa_campo.png', context,
-                      localType: 'Casa de Campo'),
+                      categoryId: 4),
                 ],
               ),
             ),
@@ -156,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
               break;
             case 1:
-              break; // Implementa la navegación a la pantalla correspondiente
+              break;
             case 2:
               Navigator.push(
                 context,
@@ -176,10 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Método para construir los botones de tipo de propiedad
   Widget _buildPropertyTypeButton(
       String label, String imageUrl, BuildContext context,
-      {required String localType}) {
+      {required int categoryId}) {
     return Column(
       children: [
         TextButton(
@@ -188,14 +186,22 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.transparent,
           ),
           onPressed: () {
-            _filterByType(localType);
+            _filterByCategory(categoryId);
           },
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(imageUrl, width: 50, height: 50),
-              const SizedBox(height: 4),
-              Text(label,
-                  style: const TextStyle(fontSize: 12, color: Colors.black)),
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: Image.asset(imageUrl, fit: BoxFit.cover),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: const TextStyle(fontSize: 10, color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
@@ -203,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Método para construir cada listado de propiedad
   Widget _buildPropertyListing(LocalModel model, BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -219,16 +224,28 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(model.photoUrl,
-                height: 200, width: double.infinity, fit: BoxFit.cover),
+            Image.network(
+              model.photoUrl,
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.network(
+                  'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.streetAddress,
+                  Text(model.title,
                       style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(model.descriptionMessage),
+                  Text(model.localCategoryName),
                   Text('S/. ${model.nightPrice} /noche',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],

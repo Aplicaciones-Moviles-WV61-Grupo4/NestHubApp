@@ -2,8 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:nesthub/step_2_page.dart';
 import 'package:nesthub/step_3_page.dart';
 
-class TitleDescriptionScreen extends StatelessWidget {
-  const TitleDescriptionScreen({super.key});
+class TitleDescriptionScreen extends StatefulWidget {
+  final String district;
+  final String city;
+  final String street;
+  final int localCategoryId;
+  final String photoUrl;
+
+  const TitleDescriptionScreen({
+    super.key,
+    required this.district,
+    required this.city,
+    required this.street,
+    required this.localCategoryId,
+    required this.photoUrl,
+  });
+
+  @override
+  State<TitleDescriptionScreen> createState() => _TitleDescriptionScreenState();
+}
+
+class _TitleDescriptionScreenState extends State<TitleDescriptionScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +47,7 @@ class TitleDescriptionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextField(
+                controller: _titleController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -44,6 +66,7 @@ class TitleDescriptionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextField(
+                controller: _descriptionController,
                 maxLines: 4,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -57,11 +80,7 @@ class TitleDescriptionScreen extends StatelessWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Step2Page()),
-                      );
+                      Navigator.pop(context); // Regresar a la pantalla anterior
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF018648)),
@@ -76,10 +95,24 @@ class TitleDescriptionScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      // Obtén el título y la descripción ingresados
+                      String title = _titleController.text;
+                      String description = _descriptionController.text;
+
+                      // Navegar a la siguiente pantalla (Step3Page)
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Step3Page()),
+                          builder: (context) => Step3Page(
+                            district: widget.district,
+                            city: widget.city,
+                            street: widget.street,
+                            localCategoryId: widget.localCategoryId,
+                            photoUrl: widget.photoUrl,
+                            title: title, // Pasa el título
+                            description: description, // Pasa la descripción
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(

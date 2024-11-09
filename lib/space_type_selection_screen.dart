@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/location_setting_screen.dart';
-import 'package:nesthub/step_1_page.dart';
 
 class SpaceTypeSelectionScreen extends StatelessWidget {
   const SpaceTypeSelectionScreen({super.key});
@@ -33,27 +32,27 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                       context,
                       imagePath: 'assets/space_type_icons/image_casa_playa.png',
                       label: 'Casa de playa',
-                      onPressed: () {},
+                      localCategoryId: 1,
                     ),
                     _buildSpaceTypeButton(
                       context,
                       imagePath:
                           'assets/space_type_icons/image_casa_urbana.png',
                       label: 'Casa urbana',
-                      onPressed: () {},
+                      localCategoryId: 2,
                     ),
                     _buildSpaceTypeButton(
                       context,
                       imagePath:
                           'assets/space_type_icons/image_salon_elegante.png',
                       label: 'Salones elegantes',
-                      onPressed: () {},
+                      localCategoryId: 3,
                     ),
                     _buildSpaceTypeButton(
                       context,
                       imagePath: 'assets/space_type_icons/image_casa_campo.png',
                       label: 'Casa de campo',
-                      onPressed: () {},
+                      localCategoryId: 4,
                     ),
                   ],
                 ),
@@ -77,26 +76,6 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                     ),
                     child: const Text('Atrás'),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const LocationSettingScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE4AC44),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text('Siguiente'),
-                  ),
                 ],
               ),
             ],
@@ -106,14 +85,25 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSpaceTypeButton(BuildContext context,
-      {required String imagePath,
-      required String label,
-      required VoidCallback onPressed}) {
+  Widget _buildSpaceTypeButton(
+    BuildContext context, {
+    required String imagePath,
+    required String label,
+    required int localCategoryId,
+  }) {
     return SizedBox(
-      height: 120, // Aumenta la altura del contenedor
+      height: 120,
       child: OutlinedButton(
-        onPressed: onPressed,
+        onPressed: () {
+          // Navegar a LocationSettingScreen con el localCategoryId seleccionado
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  LocationSettingScreen(localCategoryId: localCategoryId),
+            ),
+          );
+        },
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: Color(0xFFE4AC44)),
           backgroundColor: Colors.transparent,
