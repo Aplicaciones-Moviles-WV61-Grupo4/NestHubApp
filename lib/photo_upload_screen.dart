@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
-import 'package:nesthub/title_description_screen.dart'; // Importa la pantalla siguiente
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:nesthub/title_description_screen.dart';
 
 class PhotoUploadScreen extends StatefulWidget {
   final String district;
@@ -24,22 +25,38 @@ class PhotoUploadScreen extends StatefulWidget {
 
 class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
   final ImagePicker _picker = ImagePicker();
-  List<File> _images = []; // Lista para guardar las imágenes seleccionadas
+  List<File> _images = [];
 
-  // Asignación de imagen por defecto
   final String defaultPhotoUrl =
       'https://a0.muscache.com/im/pictures/e1e59d29-9c6a-4f81-9a73-7b805470ad84.jpg?im_w=720';
 
-  // Método para seleccionar una imagen desde la galería o la cámara
   Future<void> _pickImage(ImageSource source) async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: source); // Abrimos la cámara o galería
+    final XFile? pickedFile = await _picker.pickImage(source: source);
 
     if (pickedFile != null) {
       setState(() {
-        _images.add(File(
-            pickedFile.path)); // Añadimos la imagen seleccionada a la lista
+        _images.add(File(pickedFile.path));
       });
+    }
+  }
+
+  Future<String> _uploadImageToImgur(File image) async {
+    final uri = Uri.parse('https://api.imgur.com/3/image');
+    final request = http.MultipartRequest('POST', uri);
+
+    request.files.add(await http.MultipartFile.fromPath('image', image.path));
+
+    request.headers['Authorization'] = 'Client-ID 01a0548502c0baf';
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseData);
+      return jsonResponse['data']['link'];
+    } else {
+      print('Error al subir la imagen');
+      return '';
     }
   }
 
@@ -76,7 +93,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   imagePath: 'assets/photo_upload_icons/agregar_fotos.png',
                   label: 'Agrega fotos',
                   onPressed: () {
-                    _pickImage(ImageSource.gallery); // Llamamos a la galería
+                    _pickImage(ImageSource.gallery);
                   },
                 ),
               ),
@@ -88,12 +105,11 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   imagePath: 'assets/photo_upload_icons/foto_nueva.png',
                   label: 'Toma fotos nuevas',
                   onPressed: () {
-                    _pickImage(ImageSource.camera); // Llamamos a la cámara
+                    _pickImage(ImageSource.camera);
                   },
                 ),
               ),
               const SizedBox(height: 24),
-              // Mostramos las imágenes seleccionadas en un GridView
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -112,7 +128,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Regresar a la página anterior
+                      Navigator.pop(context);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF018648)),
@@ -126,23 +142,37 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      // Enviar la imagen por defecto o la primera imagen seleccionada
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TitleDescriptionScreen(
-                            photoUrl: _images.isEmpty
-                                ? defaultPhotoUrl
-                                : _images[0]
-                                    .path, // Usa la primera imagen seleccionada
-                            district: widget.district,
-                            city: widget.city,
-                            street: widget.street,
-                            localCategoryId: widget.localCategoryId,
+                    onPressed: () async {
+                      if (_images.isNotEmpty) {
+                        String imageUrl = await _uploadImageToImgur(_images[0]);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TitleDescriptionScreen(
+                              photoUrl:
+                                  imageUrl.isEmpty ? defaultPhotoUrl : imageUrl,
+                              district: widget.district,
+                              city: widget.city,
+                              street: widget.street,
+                              localCategoryId: widget.localCategoryId,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TitleDescriptionScreen(
+                              photoUrl: defaultPhotoUrl,
+                              district: widget.district,
+                              city: widget.city,
+                              street: widget.street,
+                              localCategoryId: widget.localCategoryId,
+                            ),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF018648),
@@ -164,7 +194,6 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
     );
   }
 
-  // Método auxiliar para crear los botones de agregar fotos
   Widget _buildPhotoButton(BuildContext context,
       {required String imagePath,
       required String label,
