@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart'; // Importa Firebase Storage
 import 'package:nesthub/title_description_screen.dart'; // Importa la pantalla siguiente
 
 class PhotoUploadScreen extends StatefulWidget {
@@ -26,7 +25,6 @@ class PhotoUploadScreen extends StatefulWidget {
 class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
   final ImagePicker _picker = ImagePicker();
   List<File> _images = []; // Lista para guardar las imágenes seleccionadas
-  String _imageUrl = ''; // Variable para almacenar la URL de Firebase Storage
 
   // Asignación de imagen por defecto
   final String defaultPhotoUrl =
@@ -42,38 +40,6 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
         _images.add(File(
             pickedFile.path)); // Añadimos la imagen seleccionada a la lista
       });
-
-      // Subir la imagen a Firebase Storage
-      await _uploadImage(File(pickedFile.path));
-    }
-  }
-
-  // Subir imagen a Firebase Storage
-  Future<void> _uploadImage(File imageFile) async {
-    try {
-      // Crear una referencia única para la imagen en Firebase Storage
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference storageRef =
-          FirebaseStorage.instance.ref().child('images/$fileName.jpg');
-
-      // Subir la imagen a Firebase Storage
-      UploadTask uploadTask = storageRef.putFile(imageFile);
-
-      // Esperar que la subida se complete
-      await uploadTask;
-
-      // Obtener la URL de descarga de la imagen subida
-      String downloadUrl = await storageRef.getDownloadURL();
-
-      print('Imagen subida con éxito! URL: $downloadUrl');
-
-      // Aquí puedes usar el downloadUrl para hacer lo que necesites
-      setState(() {
-        // Almacena la URL de descarga de la imagen
-        _imageUrl = downloadUrl; // Guarda la URL de Firebase
-      });
-    } catch (e) {
-      print('Error al subir la imagen: $e');
     }
   }
 
@@ -161,14 +127,15 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Enviar la URL de la imagen y otros datos a la siguiente pantalla
+                      // Enviar la imagen por defecto o la primera imagen seleccionada
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => TitleDescriptionScreen(
                             photoUrl: _images.isEmpty
                                 ? defaultPhotoUrl
-                                : _imageUrl, // Usamos la URL de Firebase Storage
+                                : _images[0]
+                                    .path, // Usa la primera imagen seleccionada
                             district: widget.district,
                             city: widget.city,
                             street: widget.street,
