@@ -9,24 +9,29 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '¿Cuál de estas opciones describe mejor tu espacio?',
-                style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          // Agregamos SingleChildScrollView
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '¿Cuál de estas opciones describe mejor tu espacio?',
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: GridView.count(
+                const SizedBox(height: 24),
+                GridView.count(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
+                  shrinkWrap:
+                      true, // Permite que GridView ocupe solo el espacio necesario
+                  physics:
+                      NeverScrollableScrollPhysics(), // Deshabilita el desplazamiento en el GridView
                   children: [
                     _buildSpaceTypeButton(
                       context,
@@ -56,29 +61,29 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Regresar a la página anterior
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFFE4AC44)),
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Regresar a la página anterior
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Color(0xFFE4AC44)),
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
+                      child: const Text('Atrás'),
                     ),
-                    child: const Text('Atrás'),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -95,7 +100,6 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
       height: 120,
       child: OutlinedButton(
         onPressed: () {
-          // Navegar a LocationSettingScreen con el localCategoryId seleccionado
           Navigator.push(
             context,
             MaterialPageRoute(

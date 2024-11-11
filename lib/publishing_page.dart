@@ -9,74 +9,76 @@ class PublishingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'Empieza a publicar tu espacio en NestHub',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Center(
+                  child: Text(
+                    'Empieza a publicar tu espacio en NestHub',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 70),
-              _buildStep(
-                title: 'Describe tu espacio',
-                description:
-                    'Comparte algunos datos básicos, como la ubicación y cuántos huéspedes pueden quedarse.',
-                iconAsset: 'assets/steps_icons/step_1/step1.png',
-                iconHeight: 80,
-                iconWidth: 90,
-              ),
-              const SizedBox(height: 40),
-              _buildStep(
-                title: 'Destaca tu espacio',
-                description:
-                    'Agrega al menos 5 fotos, un título y una descripción.',
-                iconAsset: 'assets/steps_icons/step_2/step2.png',
-              ),
-              const SizedBox(height: 40),
-              _buildStep(
-                title: 'Terminar y publicar',
-                description:
-                    'Elige un precio inicial, verifica algunos detalles y publica tu anuncio.',
-                iconAsset: 'assets/steps_icons/step3.png',
-                iconHeight: 80,
-                iconWidth: 80,
-              ),
-              const SizedBox(height: 80),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Step1Page()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFB44101),
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                const SizedBox(height: 70),
+                _buildStep(
+                  title: 'Describe tu espacio',
+                  description:
+                      'Comparte algunos datos básicos, como la ubicación y cuántos huéspedes pueden quedarse.',
+                  iconAsset: 'assets/steps_icons/step_1/step1.png',
+                  iconHeight: 80,
+                  iconWidth: 90,
+                ),
+                const SizedBox(height: 40),
+                _buildStep(
+                  title: 'Destaca tu espacio',
+                  description:
+                      'Agrega al menos 5 fotos, un título y una descripción.',
+                  iconAsset: 'assets/steps_icons/step_2/step2.png',
+                ),
+                const SizedBox(height: 40),
+                _buildStep(
+                  title: 'Terminar y publicar',
+                  description:
+                      'Elige un precio inicial, verifica algunos detalles y publica tu anuncio.',
+                  iconAsset: 'assets/steps_icons/step3.png',
+                  iconHeight: 80,
+                  iconWidth: 80,
+                ),
+                const SizedBox(height: 80),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Step1Page()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFB44101),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Comencemos',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  child: const Text(
-                    'Comencemos',
-                    style: TextStyle(color: Colors.white),
-                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

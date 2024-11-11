@@ -13,12 +13,10 @@ class AddressConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Controladores de texto para almacenar la entrada del usuario
     final TextEditingController _districtController = TextEditingController();
     final TextEditingController _cityController = TextEditingController();
     final TextEditingController _streetController = TextEditingController();
 
-    // Establece el valor inicial de _streetController con el street pasado
     _streetController.text = street;
 
     return Scaffold(
@@ -40,10 +38,6 @@ class AddressConfirmationScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       _buildTextField('Dirección', street, _streetController),
-                      _buildTextField(
-                          'Departamento, piso, etc (si corresponde)',
-                          'departamento',
-                          TextEditingController()), // Campo sin efecto en API
                       _buildTextField(
                           'Distrito', 'Chorrillos', _districtController),
                       _buildTextField('Código postal', 'LIMA 09',
@@ -82,8 +76,7 @@ class AddressConfirmationScreen extends StatelessWidget {
                             district: _districtController.text,
                             city: _cityController.text,
                             street: _streetController.text,
-                            localCategoryId:
-                                localCategoryId, // Pasa localCategoryId a la siguiente pantalla
+                            localCategoryId: localCategoryId,
                           ),
                         ),
                       );
@@ -108,8 +101,7 @@ class AddressConfirmationScreen extends StatelessWidget {
 
   Widget _buildTextField(
       String label, String initialValue, TextEditingController controller) {
-    controller.text =
-        initialValue; // Establece el valor inicial en el controlador
+    controller.text = initialValue;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: TextField(
