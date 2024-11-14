@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/step_2_page.dart';
 import 'package:nesthub/step_3_page.dart';
 
 class TitleDescriptionScreen extends StatefulWidget {

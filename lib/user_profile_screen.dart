@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:nesthub/home_screen.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
+import 'package:nesthub/personal_information_page.dart';
 import 'package:nesthub/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
 import 'package:nesthub/login_screen.dart';
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+
+  final String preferredName;
+  const UserProfileScreen({super.key, required this.preferredName});
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +55,9 @@ class UserProfileScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Cesar Salas',
-                        style: TextStyle(
+                      Text(
+                        preferredName.isNotEmpty ? 'Hola, $preferredName' : 'Hola, huésped',
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -107,7 +110,25 @@ class UserProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               _buildMenuButton('assets/profile_icons/informacion_personal.png',
-                  'Información personal', () {}),
+                  'Información personal', 
+                  () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => const PersonalInformationPage(),
+                      ),
+                    ).then((updatedPreferredName) {
+                      if (updatedPreferredName != null) {
+                        Navigator.pushReplacement(
+                          context, 
+                          MaterialPageRoute(
+                            builder: (context) => UserProfileScreen(preferredName: updatedPreferredName),
+                          ),
+                        );
+                      }
+                    });
+                  }
+                ),
               _buildMenuButton('assets/profile_icons/pagos_cobros.png',
                   'Pagos y cobros', () {}),
               _buildMenuButton('assets/profile_icons/seguridad.png',

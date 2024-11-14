@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UserProfileScreen()),
+                    builder: (context) => const UserProfileScreen(preferredName: 'Huesped',)),
               );
               break;
           }
