@@ -20,12 +20,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Padding(
           padding: EdgeInsets.all(10.0),
           child: Text('Registrarse'),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[200],
         foregroundColor: Colors.black,
         elevation: 0,
       ),

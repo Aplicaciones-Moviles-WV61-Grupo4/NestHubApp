@@ -19,7 +19,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   };
 
   final _firstNameController = TextEditingController(text: 'Cesar');
-  final _lastNameController = TextEditingController(text: 'Saalas');
+  final _lastNameController = TextEditingController(text: 'Salas');
   final _preferredNameController = TextEditingController(text: 'No proporcionado');
   final _emailController = TextEditingController(text: 'No proporcionado');
   final _phoneController = TextEditingController(text: 'No proporcionado');
