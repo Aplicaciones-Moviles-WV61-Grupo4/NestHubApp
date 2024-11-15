@@ -85,7 +85,7 @@ class _TitleDescriptionScreenState extends State<TitleDescriptionScreen> {
                       side: const BorderSide(color: Color(0xFF018648)),
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
+                          vertical: 8, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -121,7 +121,7 @@ class _TitleDescriptionScreenState extends State<TitleDescriptionScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 16),
+                          horizontal: 32, vertical: 8),
                     ),
                     child: const Text('Siguiente'),
                   ),

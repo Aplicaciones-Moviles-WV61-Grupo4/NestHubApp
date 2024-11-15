@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/accessibility_page.dart';
 import 'package:nesthub/home_screen.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
@@ -134,7 +135,15 @@ class UserProfileScreen extends StatelessWidget {
               _buildMenuButton('assets/profile_icons/seguridad.png',
                   'Inicio de sesión y seguridad', () {}),
               _buildMenuButton('assets/profile_icons/accesibilidad.png',
-                  'Accesibilidad', () {}),
+                  'Accesibilidad', 
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AccessibilityPage(),
+                      ),
+                    );
+                  }),
               _buildMenuButton('assets/profile_icons/notificacion.png',
                   'Notificaciones', 
                   () {

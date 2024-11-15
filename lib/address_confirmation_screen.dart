@@ -60,7 +60,7 @@ class AddressConfirmationScreen extends StatelessWidget {
                       side: const BorderSide(color: Color(0xFFE4AC44)),
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
+                          vertical:8, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -83,7 +83,7 @@ class AddressConfirmationScreen extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE7A436),
-                      foregroundColor: Colors.white,
+                      foregroundColor: Colors.grey[200],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
