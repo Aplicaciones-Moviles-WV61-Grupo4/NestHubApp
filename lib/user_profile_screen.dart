@@ -3,6 +3,7 @@ import 'package:nesthub/accessibility_page.dart';
 import 'package:nesthub/home_screen.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
+import 'package:nesthub/paymet_page.dart';
 import 'package:nesthub/personal_information_page.dart';
 import 'package:nesthub/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
@@ -131,7 +132,14 @@ class UserProfileScreen extends StatelessWidget {
                   }
                 ),
               _buildMenuButton('assets/profile_icons/pagos_cobros.png',
-                  'Pagos y cobros', () {}),
+                  'Pagos y cobros', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PaymentsPage(),
+                      ),
+                    );
+                  }),
               _buildMenuButton('assets/profile_icons/seguridad.png',
                   'Inicio de sesión y seguridad', () {}),
               _buildMenuButton('assets/profile_icons/accesibilidad.png',
