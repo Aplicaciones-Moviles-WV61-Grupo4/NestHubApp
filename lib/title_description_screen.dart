@@ -82,7 +82,7 @@ class _TitleDescriptionScreenState extends State<TitleDescriptionScreen> {
                       Navigator.pop(context); // Regresar a la pantalla anterior
                     },
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF018648)),
+                      side: const BorderSide(color: Color(0xFF7BA884)),
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 24),
@@ -115,7 +115,7 @@ class _TitleDescriptionScreenState extends State<TitleDescriptionScreen> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF018648),
+                      backgroundColor: const Color(0xFF7BA884),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

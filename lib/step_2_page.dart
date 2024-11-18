@@ -98,7 +98,7 @@ class Step2Page extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF018648),
+                      backgroundColor: const Color(0xFF7BA884),
                       padding: const EdgeInsets.symmetric(
                           vertical: 16, horizontal: 24),
                       shape: RoundedRectangleBorder(

@@ -131,7 +131,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                       Navigator.pop(context);
                     },
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF018648)),
+                      side: const BorderSide(color: Color(0xFF7BA884)),
                       padding: const EdgeInsets.symmetric(
                           vertical: 16, horizontal: 24),
                       foregroundColor: Colors.black,
@@ -175,7 +175,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF018648),
+                      backgroundColor: const Color(0xFF7BA884),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                           vertical: 16, horizontal: 24),
@@ -202,7 +202,7 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         side: const BorderSide(
-          color: Color(0xFF018648),
+          color: Color(0xFF7BA884),
           width: 1,
         ),
         backgroundColor: Colors.grey[200],
