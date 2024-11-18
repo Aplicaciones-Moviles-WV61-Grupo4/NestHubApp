@@ -5,7 +5,7 @@ import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
 import 'package:nesthub/paymet_page.dart';
 import 'package:nesthub/personal_information_page.dart';
-import 'package:nesthub/publishing_page.dart';
+import 'package:nesthub/steps_pages/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
 import 'package:nesthub/login_screen.dart';
 class UserProfileScreen extends StatelessWidget {

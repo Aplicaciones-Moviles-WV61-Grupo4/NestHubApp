@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/photo_upload_screen.dart';
-import 'package:nesthub/publishing_page.dart';
+import 'package:nesthub/steps_pages/photo_upload_screen.dart';
+import 'package:nesthub/steps_pages/publishing_page.dart';
 
 class Step2Page extends StatelessWidget {
   final String district;

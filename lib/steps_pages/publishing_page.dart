@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/step_1_page.dart';
+import 'package:nesthub/steps_pages/step_1_page.dart';
 
 class PublishingPage extends StatelessWidget {
   const PublishingPage({super.key});

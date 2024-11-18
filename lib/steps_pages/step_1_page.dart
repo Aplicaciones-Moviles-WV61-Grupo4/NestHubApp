@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/publishing_page.dart';
-import 'package:nesthub/space_type_selection_screen.dart';
+import 'package:nesthub/steps_pages/publishing_page.dart';
+import 'package:nesthub/steps_pages/space_type_selection_screen.dart';
 
 class Step1Page extends StatelessWidget {
   const Step1Page({super.key});

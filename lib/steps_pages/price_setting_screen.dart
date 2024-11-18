@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nesthub/features/local/data/remote/local_data.dart';
 import 'package:nesthub/features/local/data/remote/local_service.dart';
-import 'package:nesthub/publish_screen.dart';
+import 'package:nesthub/steps_pages/publish_screen.dart';
 import 'package:nesthub/features/local/data/remote/local_model.dart';
 
 class PriceSettingScreen extends StatefulWidget {

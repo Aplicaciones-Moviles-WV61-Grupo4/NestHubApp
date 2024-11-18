@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:nesthub/title_description_screen.dart';
+import 'package:nesthub/steps_pages/title_description_screen.dart';
 
 class PhotoUploadScreen extends StatefulWidget {
   final String district;

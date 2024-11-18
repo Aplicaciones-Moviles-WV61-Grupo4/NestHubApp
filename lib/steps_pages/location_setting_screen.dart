@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:nesthub/address_confirmation_screen.dart';
-import 'package:nesthub/step_1_page.dart';
+import 'package:nesthub/steps_pages/address_confirmation_screen.dart';
+import 'package:nesthub/steps_pages/step_1_page.dart';
 
 class LocationSettingScreen extends StatefulWidget {
   final int localCategoryId;

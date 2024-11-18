@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/price_setting_screen.dart';
-import 'package:nesthub/publishing_page.dart';
+import 'package:nesthub/steps_pages/price_setting_screen.dart';
+import 'package:nesthub/steps_pages/publishing_page.dart';
 
 class Step3Page extends StatelessWidget {
   final String district;

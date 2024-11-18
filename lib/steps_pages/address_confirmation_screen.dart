@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/step_2_page.dart';
+import 'package:nesthub/steps_pages/step_2_page.dart';
 
 class AddressConfirmationScreen extends StatelessWidget {
   final String street; // Añade el campo para la calle

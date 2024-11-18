@@ -5,7 +5,7 @@ import 'package:nesthub/features/local/data/remote/local_service.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/user_profile_screen.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
-import 'package:nesthub/property_display_screen.dart';
+import 'package:nesthub/steps_pages/property_display_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
