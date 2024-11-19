@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/home_screen.dart';
-import 'package:nesthub/features/local/data/remote/local_data.dart';
+import 'package:nesthub/features/local/domain/local.dart';
 
 class PublishScreen extends StatelessWidget {
-  final LocalData localData;
+  final Local localData;
 
   const PublishScreen({super.key, required this.localData});
 

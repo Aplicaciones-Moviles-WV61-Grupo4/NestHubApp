@@ -1,4 +1,6 @@
-class LocalModel {
+import 'package:nesthub/features/local/domain/local.dart';
+
+class LocalDto {
   final int id;
   final String streetAddress;
   final String cityPlace;
@@ -9,7 +11,7 @@ class LocalModel {
   final int localCategoryId;
   final String localCategoryName;
 
-  LocalModel({
+  LocalDto({
     required this.id,
     required this.streetAddress,
     required this.cityPlace,
@@ -21,8 +23,8 @@ class LocalModel {
     required this.localCategoryName,
   });
 
-  factory LocalModel.fromJson(Map<String, dynamic> json) {
-    return LocalModel(
+  factory LocalDto.fromJson(Map<String, dynamic> json) {
+    return LocalDto(
       id: json['local']['id'] ?? 0,
       streetAddress: json['local']['streetAddress'] ?? '',
       cityPlace: json['local']['cityPlace'] ?? '',
@@ -51,5 +53,19 @@ class LocalModel {
         'userId': 1 // Aquí asigna el ID del usuario correspondiente
       }
     };
+  }
+
+  Local toLocal() {
+    return Local(
+      district: '',
+      street: streetAddress,
+      title: title,
+      city: cityPlace,
+      price: nightPrice,
+      photoUrl: photoUrl,
+      descriptionMessage: descriptionMessage,
+      localCategoryId: localCategoryId,
+      userId: 1,
+    );
   }
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nesthub/features/local/data/remote/local_model.dart';
+import 'package:nesthub/features/local/domain/local.dart';
 
-class PropertyDisplayScreen extends StatelessWidget {
-  const PropertyDisplayScreen({super.key, required this.localModel});
-  final LocalModel localModel;
+class LocalDetailScreen extends StatelessWidget {
+  const LocalDetailScreen({super.key, required this.localModel});
+  final Local localModel;
 
-  final LatLng _center =
-      const LatLng(-12.1416, -77.0219); // Coordenadas de Barranco, Lima
+  final LatLng _center = const LatLng(-12.1416, -77.0219);
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +14,11 @@ class PropertyDisplayScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalles de la Propiedad'), // Título de la pantalla
+        title: const Text('Detalles de la Propiedad'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back), // Icono de flecha hacia atrás
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Regresar a la pantalla anterior
+            Navigator.pop(context);
           },
         ),
       ),
@@ -29,7 +28,6 @@ class PropertyDisplayScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              // Imagen (si es necesario)
               Image.network(
                 localModel.photoUrl,
                 height: height * 0.25,
@@ -37,12 +35,12 @@ class PropertyDisplayScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               Text(
-                localModel.streetAddress, // Cambiado para usar streetAddress
+                localModel.street, // Cambiado para usar streetAddress
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(localModel.cityPlace, // Cambiado para usar cityPlace
+              Text(localModel.city, // Cambiado para usar cityPlace
                   style: const TextStyle(fontSize: 16)),
               const Text('4 huéspedes · 1 habitación · 2 camas · 1 baño'),
               const SizedBox(height: 16),
@@ -117,7 +115,7 @@ class PropertyDisplayScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                      '${localModel.nightPrice} / noche', // Cambiado para usar nightPrice
+                      '${localModel.price} / noche', // Cambiado para usar nightPrice
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   ElevatedButton(

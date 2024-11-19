@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nesthub/features/local/data/remote/local_data.dart';
+import 'package:nesthub/features/local/domain/local.dart';
 import 'package:nesthub/features/local/data/remote/local_service.dart';
 import 'package:nesthub/steps_pages/publish_screen.dart';
-import 'package:nesthub/features/local/data/remote/local_model.dart';
 
 class PriceSettingScreen extends StatefulWidget {
   final String district;
@@ -36,7 +35,7 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
   Future<void> _submitData() async {
     final String price = _priceController.text;
 
-    final localData = LocalData(
+    final localData = Local(
       district: widget.district,
       street: widget.street,
       title: widget.title,
@@ -49,9 +48,7 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
     );
 
     try {
-      // Realiza el push del modelo usando el servicio
       await _localService.pushLocal(localData);
-      // Redirecciona a la pantalla de publicación después de la respuesta exitosa
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -59,7 +56,6 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
         ),
       );
     } catch (e) {
-      // Muestra un mensaje de error si falla el push
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error al crear el local: $e')),
       );

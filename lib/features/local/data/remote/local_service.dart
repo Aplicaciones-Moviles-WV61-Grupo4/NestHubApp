@@ -2,24 +2,36 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:nesthub/core/app_constants.dart';
-import 'package:nesthub/features/local/data/remote/local_data.dart';
-import 'package:nesthub/features/local/data/remote/local_model.dart';
+import 'package:nesthub/features/local/domain/local.dart';
+import 'package:nesthub/features/local/data/remote/local_dto.dart';
 import 'package:http/http.dart' as http;
 
 class LocalService {
-  Future<List<LocalModel>> getLocals() async {
-    final response = await http
+  Future<List<LocalDto>> getLocals() async {
+    /*final response = await http
         .get(Uri.parse(AppConstants.baseUrl + AppConstants.localsEndpoint));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((model) => LocalModel.fromJson(model)).toList();
+      return jsonResponse.map((model) => LocalDto.fromJson(model)).toList();
     } else {
       throw Exception('Error al cargar locales');
+    }*/
+    String url = '${AppConstants.baseUrl}${AppConstants.localsEndpoint}';
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == HttpStatus.ok) {
+        List<dynamic> jsonResponse = json.decode(response.body);
+        return jsonResponse.map((model) => LocalDto.fromJson(model)).toList();
+      }
+      return [];
+    } catch (e) {
+      return [];
     }
   }
 
-  Future<void> pushLocal(LocalData local) async {
+  Future<void> pushLocal(Local local) async {
     final url = Uri.parse(AppConstants.baseUrl + AppConstants.localsEndpoint);
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json',

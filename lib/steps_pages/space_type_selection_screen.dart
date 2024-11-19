@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/location_setting_screen.dart';
+import 'package:nesthub/steps_pages/location_setting_screen.dart';
 
 class SpaceTypeSelectionScreen extends StatelessWidget {
   const SpaceTypeSelectionScreen({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/core/app_constants.dart';
-import 'package:nesthub/features/local/data/remote/local_model.dart';
 import 'package:nesthub/features/local/data/remote/local_service.dart';
+import 'package:nesthub/features/local/data/repository/local_repository.dart';
+import 'package:nesthub/features/local/domain/local.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/user_profile_screen.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
-import 'package:nesthub/steps_pages/property_display_screen.dart';
+import 'package:nesthub/steps_pages/local_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,33 +15,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<LocalModel> _models = [];
-  List<LocalModel> _filteredModels = [];
+  //List<LocalDto> _models = [];
+  //List<LocalDto> _filteredModels = [];
+
+  List<Local> _locals = [];
+  List<Local> _filteredModels = [];
+
   final TextEditingController _searchController = TextEditingController();
   int _selectedCategoryId = 0;
 
   Future<void> _loadData() async {
-    try {
+    /*try {
       print('Cargando datos desde: ${AppConstants.baseUrl}');
-      List<LocalModel> models = await LocalService().getLocals();
+      List<LocalDto> models = await LocalService().getLocals();
       setState(() {
         _models = models;
         _filteredModels = models;
       });
     } catch (e) {
       print('Error al cargar datos: $e');
-    }
+    }*/
+    List<Local> locals =
+        await LocalRepository(localService: LocalService()).getLocals();
+    setState(() {
+      _locals = locals;
+      _filteredModels = locals;
+    });
   }
 
   void _filterModels(String query) {
     setState(() {
       if (query.isEmpty) {
-        _filteredModels = _models.where((model) {
+        _filteredModels = _locals.where((model) {
           return _selectedCategoryId == 0 ||
               model.localCategoryId == _selectedCategoryId;
         }).toList();
       } else {
-        _filteredModels = _models.where((model) {
+        _filteredModels = _locals.where((model) {
           return (model.title.toLowerCase().contains(query.toLowerCase()) &&
               (_selectedCategoryId == 0 ||
                   model.localCategoryId == _selectedCategoryId));
@@ -53,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _filterByCategory(int categoryId) {
     setState(() {
       _selectedCategoryId = categoryId;
-      _filteredModels = _models.where((model) {
+      _filteredModels = _locals.where((model) {
         return categoryId == 0 || model.localCategoryId == _selectedCategoryId;
       }).toList();
     });
@@ -166,7 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UserProfileScreen(preferredName: 'Huesped',)),
+                    builder: (context) => const UserProfileScreen(
+                          preferredName: 'Huesped',
+                        )),
               );
               break;
           }
@@ -209,13 +221,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPropertyListing(LocalModel model, BuildContext context) {
+  Widget _buildPropertyListing(Local model, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PropertyDisplayScreen(localModel: model),
+            builder: (context) => LocalDetailScreen(localModel: model),
           ),
         );
       },
@@ -245,8 +257,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(model.title,
                       style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(model.localCategoryName),
-                  Text('S/. ${model.nightPrice} /noche',
+                  Text(
+                    model.descriptionMessage,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  Text('S/. ${model.price} /noche',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),

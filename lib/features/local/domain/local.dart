@@ -1,4 +1,4 @@
-class LocalData {
+class Local {
   final String district;
   final String street;
   final String title;
@@ -9,7 +9,7 @@ class LocalData {
   final int localCategoryId;
   final int userId;
 
-  LocalData({
+  Local({
     required this.district,
     required this.street,
     required this.title,
