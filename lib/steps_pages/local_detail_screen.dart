@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nesthub/features/local/domain/local.dart';
 
-class LocalDetailScreen extends StatelessWidget {
+class LocalDetailScreen extends StatefulWidget {
   const LocalDetailScreen({super.key, required this.localModel});
   final Local localModel;
+
+  @override
+  _LocalDetailScreenState createState() => _LocalDetailScreenState();
+}
+
+class _LocalDetailScreenState extends State<LocalDetailScreen> {
+  bool isFavorite = false; // Estado para controlar si es favorito
 
   final LatLng _center = const LatLng(-12.1416, -77.0219);
 
@@ -28,19 +35,47 @@ class LocalDetailScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              Image.network(
-                localModel.photoUrl,
-                height: height * 0.25,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              Stack(
+                children: [
+                  Image.network(
+                    widget.localModel.photoUrl,
+                    height: height * 0.25,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.black54,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isFavorite = !isFavorite; // Cambiar estado
+                          });
+                        },
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color:
+                              isFavorite ? Colors.red : Colors.yellow.shade800,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 16),
               Text(
-                localModel.street, // Cambiado para usar streetAddress
+                widget.localModel.street,
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(localModel.city, // Cambiado para usar cityPlace
+              Text(widget.localModel.city,
                   style: const TextStyle(fontSize: 16)),
               const Text('4 huéspedes · 1 habitación · 2 camas · 1 baño'),
               const SizedBox(height: 16),
@@ -64,9 +99,7 @@ class LocalDetailScreen extends StatelessWidget {
               const Text('Descripción',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              Text(
-                  localModel
-                      .descriptionMessage, // Cambiado para usar descriptionMessage
+              Text(widget.localModel.descriptionMessage,
                   style: const TextStyle(fontSize: 14)),
               const SizedBox(height: 16),
               const Text('Qué servicios ofrece',
@@ -114,8 +147,7 @@ class LocalDetailScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      '${localModel.price} / noche', // Cambiado para usar nightPrice
+                  Text('${widget.localModel.price} / noche',
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   ElevatedButton(

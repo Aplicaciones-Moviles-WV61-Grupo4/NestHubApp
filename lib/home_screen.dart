@@ -91,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Barra de búsqueda
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Container(
@@ -117,7 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // Botones de tipo de propiedad por Categoría
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
@@ -141,7 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            // Listado de propiedades
             Expanded(
               child: ListView.builder(
                 itemCount: _filteredModels.length,
