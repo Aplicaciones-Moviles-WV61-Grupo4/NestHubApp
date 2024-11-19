@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nesthub/steps_pages/step_2_page.dart';
 
 class AddressConfirmationScreen extends StatelessWidget {
-  final String street; // Añade el campo para la calle
-  final int localCategoryId; // Añade el campo para el localCategoryId
+  final String street;
+  final int localCategoryId;
 
   const AddressConfirmationScreen({
     super.key,
     required this.street,
-    required this.localCategoryId, // Asegúrate de requerirlo en el constructor
+    required this.localCategoryId,
   });
 
   @override
@@ -40,8 +40,8 @@ class AddressConfirmationScreen extends StatelessWidget {
                       _buildTextField('Dirección', street, _streetController),
                       _buildTextField(
                           'Distrito', 'Chorrillos', _districtController),
-                      _buildTextField('Código postal', 'LIMA 09',
-                          TextEditingController()), // Campo sin efecto en API
+                      _buildTextField(
+                          'Código postal', 'LIMA 09', TextEditingController()),
                       _buildTextField('Departamento/estado/provincia/región',
                           'Provincia de Lima', _cityController),
                     ],
@@ -60,7 +60,7 @@ class AddressConfirmationScreen extends StatelessWidget {
                       side: const BorderSide(color: Color(0xFFE4AC44)),
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          vertical:8, horizontal: 24),
+                          vertical: 8, horizontal: 24),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

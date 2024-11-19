@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 import 'package:nesthub/steps_pages/address_confirmation_screen.dart';
 import 'package:nesthub/steps_pages/step_1_page.dart';
 
@@ -16,10 +17,10 @@ class LocationSettingScreen extends StatefulWidget {
 class _LocationSettingScreenState extends State<LocationSettingScreen> {
   late GoogleMapController mapController;
   LatLng? _currentPosition;
-  Location location = Location();
+  loc.Location location = loc.Location();
   bool _serviceEnabled = false;
-  PermissionStatus? _permissionGranted;
-  LocationData? _locationData;
+  loc.PermissionStatus? _permissionGranted;
+  loc.LocationData? _locationData;
 
   final TextEditingController _streetController = TextEditingController();
 
@@ -41,23 +42,48 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
       }
 
       _permissionGranted = await location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
+      if (_permissionGranted == loc.PermissionStatus.denied) {
         _permissionGranted = await location.requestPermission();
-        if (_permissionGranted != PermissionStatus.granted) {
-          _showErrorDialog('Se requiere permiso de ubicación para esta funcionalidad');
+        if (_permissionGranted != loc.PermissionStatus.granted) {
+          _showErrorDialog(
+              'Se requiere permiso de ubicación para esta funcionalidad');
           return;
         }
       }
 
       _locationData = await location.getLocation();
       setState(() {
-        _currentPosition = LatLng(_locationData!.latitude!, _locationData!.longitude!);
+        _currentPosition =
+            LatLng(_locationData!.latitude!, _locationData!.longitude!);
       });
 
       mapController.animateCamera(CameraUpdate.newLatLng(_currentPosition!));
     } catch (e) {
       print('Error al obtener la ubicación: $e');
-      _showErrorDialog('No se pudo obtener la ubicación. Por favor, inténtalo de nuevo.');
+      _showErrorDialog(
+          'No se pudo obtener la ubicación. Por favor, inténtalo de nuevo.');
+    }
+  }
+
+  Future<void> _updateMapLocation(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        LatLng newPosition =
+            LatLng(locations.first.latitude, locations.first.longitude);
+
+        setState(() {
+          _currentPosition = newPosition;
+        });
+
+        mapController
+            .animateCamera(CameraUpdate.newLatLngZoom(newPosition, 15.0));
+      } else {
+        _showErrorDialog('No se encontró la ubicación ingresada.');
+      }
+    } catch (e) {
+      print('Error al actualizar la ubicación en el mapa: $e');
+      _showErrorDialog('Hubo un problema al encontrar la ubicación.');
     }
   }
 
@@ -123,6 +149,7 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                   labelText: 'Ingresa la calle',
                   border: OutlineInputBorder(),
                 ),
+                onSubmitted: (value) => _updateMapLocation(value),
               ),
               const SizedBox(height: 16),
               SizedBox(
@@ -130,7 +157,7 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                 child: GoogleMap(
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: _currentPosition ?? const LatLng(-12.1416, -77.0219),
+                    target: _currentPosition ?? const LatLng(-12, 23),
                     zoom: 15.0,
                   ),
                 ),

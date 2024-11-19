@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nesthub/features/local/domain/local.dart';
+import 'package:geocoding/geocoding.dart';
 
 class LocalDetailScreen extends StatefulWidget {
   const LocalDetailScreen({super.key, required this.localModel});
@@ -11,9 +12,35 @@ class LocalDetailScreen extends StatefulWidget {
 }
 
 class _LocalDetailScreenState extends State<LocalDetailScreen> {
-  bool isFavorite = false; // Estado para controlar si es favorito
+  bool isFavorite = false;
 
-  final LatLng _center = const LatLng(-12.1416, -77.0219);
+  final LatLng _defaultCenter =
+      const LatLng(-12.1416, -77.0219); // Ubicación por defecto
+  LatLng? _location; // Coordenadas de la ubicación
+
+  @override
+  void initState() {
+    super.initState();
+    _getLocationFromAddress(
+        widget.localModel.street); // Obtener coordenadas al iniciar
+  }
+
+  Future<void> _getLocationFromAddress(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        setState(() {
+          _location =
+              LatLng(locations.first.latitude, locations.first.longitude);
+        });
+      }
+    } catch (e) {
+      print('Error al obtener la ubicación: $e');
+      setState(() {
+        _location = _defaultCenter; // Usar ubicación por defecto si falla
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +81,7 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                       child: IconButton(
                         onPressed: () {
                           setState(() {
-                            isFavorite = !isFavorite; // Cambiar estado
+                            isFavorite = !isFavorite;
                           });
                         },
                         icon: Icon(
@@ -115,18 +142,23 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
               const Text('A dónde irás',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              const Text('Barranco, Lima, Perú'),
               const SizedBox(height: 8),
-              SizedBox(
-                height: 200,
-                child: GoogleMap(
-                  onMapCreated: (GoogleMapController controller) {},
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 15.0,
+              Text(
+                  widget.localModel
+                      .street, // Aquí usamos la propiedad street de localModel
+                  style: const TextStyle(fontSize: 14)),
+              const SizedBox(height: 8),
+              if (_location != null)
+                SizedBox(
+                  height: 200,
+                  child: GoogleMap(
+                    onMapCreated: (GoogleMapController controller) {},
+                    initialCameraPosition: CameraPosition(
+                      target: _location!,
+                      zoom: 15.0,
+                    ),
                   ),
                 ),
-              ),
               const SizedBox(height: 16),
               const Row(
                 children: [
