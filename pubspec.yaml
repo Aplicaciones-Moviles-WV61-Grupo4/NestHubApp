@@ -23,6 +23,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: true
+  ios: true
+  web:
+    generate: true
+  windows:
+    generate: true
+  macos:
+    generate: true
+  image_path: "assets/login_icons/nesthub-app-logo.png"
 
 flutter:
   uses-material-design: true
