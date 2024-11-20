@@ -40,6 +40,13 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     }
   }
 
+  double get averageRating {
+    if (widget.localModel.reviews.isEmpty) return 0;
+    int totalRating =
+        widget.localModel.reviews.fold(0, (sum, review) => sum + review.rating);
+    return totalRating / widget.localModel.reviews.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -104,11 +111,13 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                   style: const TextStyle(fontSize: 16)),
               const Text('4 huéspedes · 1 habitación · 2 camas · 1 baño'),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.star, color: Colors.orange),
-                  Text('4.92 · 10 reseñas',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Icon(Icons.star, color: Colors.orange),
+                  Text(
+                    '${averageRating.toStringAsFixed(2)} · ${widget.localModel.reviews.length} ${widget.localModel.reviews.length == 1 ? 'reseña' : 'reseñas'}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -156,21 +165,17 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                   ),
                 ),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.star, color: Colors.orange),
-                  SizedBox(width: 4),
-                  Text('4.92 · 10 reseñas',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Icon(Icons.star, color: Colors.orange),
+                  Text(
+                    '${averageRating.toStringAsFixed(2)} · ${widget.localModel.reviews.length} ${widget.localModel.reviews.length == 1 ? 'reseña' : 'reseñas'}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
-              const SizedBox(height: 8),
-              _buildReview('Franco Perez',
-                  'Excelente alojamiento, todo igual a las fotos y en un muy buen estado.'),
-              _buildReview('Javier Castro',
-                  'Excelente ubicación, cerca de tiendas y restaurantes.'),
-              _buildReview('Miguel Pino',
-                  'El anfitrión fue muy receptivo, que incluye el estacionamiento es un plus.'),
+              // Aquí se muestran las reseñas desde el modelo `Local`
+              ..._buildReviews(),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,6 +205,24 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
         ),
       ),
     );
+  }
+
+  // Método para construir las reseñas desde el modelo `Local`
+  List<Widget> _buildReviews() {
+    // Si no hay reseñas, mostramos un mensaje indicando eso
+    if (widget.localModel.reviews.isEmpty) {
+      return [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('No hay reseñas aún',
+              style: TextStyle(fontStyle: FontStyle.italic)),
+        ),
+      ];
+    }
+
+    return widget.localModel.reviews.map((review) {
+      return _buildReview(review.rating, review.comment);
+    }).toList();
   }
 
   static Widget _buildFeature(IconData icon, String title, String description) {
@@ -238,13 +261,25 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     );
   }
 
-  static Widget _buildReview(String name, String comment) {
+  static Widget _buildReview(int rating, String comment) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Row(
+            children: [
+              // Mostrar las estrellas según el rating
+              for (int i = 0; i < rating; i++)
+                const Icon(Icons.star, color: Colors.orange, size: 16),
+              for (int i = rating; i < 5; i++)
+                const Icon(Icons.star_border, color: Colors.orange, size: 16),
+              const SizedBox(width: 8),
+              Text('$rating/5',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const SizedBox(height: 4),
           Text(comment),
         ],
       ),

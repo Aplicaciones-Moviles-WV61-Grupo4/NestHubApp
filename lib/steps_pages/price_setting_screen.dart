@@ -45,6 +45,7 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
       descriptionMessage: widget.description,
       localCategoryId: widget.localCategoryId,
       userId: 1,
+      reviews: [], // Pasando una lista vacía de reseñas
     );
 
     try {
