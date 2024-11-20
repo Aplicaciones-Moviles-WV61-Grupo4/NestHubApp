@@ -14,15 +14,13 @@ class LocalDetailScreen extends StatefulWidget {
 class _LocalDetailScreenState extends State<LocalDetailScreen> {
   bool isFavorite = false;
 
-  final LatLng _defaultCenter =
-      const LatLng(-12.1416, -77.0219); // Ubicación por defecto
-  LatLng? _location; // Coordenadas de la ubicación
+  final LatLng _defaultCenter = const LatLng(-12.1416, -77.0219);
+  LatLng? _location;
 
   @override
   void initState() {
     super.initState();
-    _getLocationFromAddress(
-        widget.localModel.street); // Obtener coordenadas al iniciar
+    _getLocationFromAddress(widget.localModel.street);
   }
 
   Future<void> _getLocationFromAddress(String address) async {
@@ -37,7 +35,7 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     } catch (e) {
       print('Error al obtener la ubicación: $e');
       setState(() {
-        _location = _defaultCenter; // Usar ubicación por defecto si falla
+        _location = _defaultCenter;
       });
     }
   }
@@ -143,9 +141,7 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               const SizedBox(height: 8),
-              Text(
-                  widget.localModel
-                      .street, // Aquí usamos la propiedad street de localModel
+              Text(widget.localModel.street,
                   style: const TextStyle(fontSize: 14)),
               const SizedBox(height: 8),
               if (_location != null)

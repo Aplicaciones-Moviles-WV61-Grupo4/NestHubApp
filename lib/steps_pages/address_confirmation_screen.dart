@@ -15,9 +15,8 @@ class AddressConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController _districtController = TextEditingController();
     final TextEditingController _cityController = TextEditingController();
-    final TextEditingController _streetController = TextEditingController();
-
-    _streetController.text = street;
+    final TextEditingController _streetController =
+        TextEditingController(text: street);
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -37,13 +36,12 @@ class AddressConfirmationScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      _buildTextField('Dirección', street, _streetController),
-                      _buildTextField(
-                          'Distrito', 'Chorrillos', _districtController),
-                      _buildTextField(
-                          'Código postal', 'LIMA 09', TextEditingController()),
+                      _buildTextField('Dirección', _streetController),
+                      _buildTextField('Distrito', _districtController),
+                      _buildTextField('Código postal',
+                          TextEditingController(text: 'LIMA 09')),
                       _buildTextField('Departamento/estado/provincia/región',
-                          'Provincia de Lima', _cityController),
+                          _cityController),
                     ],
                   ),
                 ),
@@ -99,9 +97,7 @@ class AddressConfirmationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(
-      String label, String initialValue, TextEditingController controller) {
-    controller.text = initialValue;
+  Widget _buildTextField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: TextField(
