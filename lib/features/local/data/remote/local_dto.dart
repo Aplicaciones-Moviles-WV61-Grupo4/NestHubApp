@@ -74,6 +74,7 @@ class LocalDto {
       localCategoryId: localCategoryId,
       reviews: reviews, // Aseguramos que las reseñas también se incluyan
       userId: 1,
+      isFavorite: false
     );
   }
 }

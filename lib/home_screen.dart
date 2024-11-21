@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/favorite/favorite_list_page.dart';
 import 'package:nesthub/features/local/data/remote/local_service.dart';
 import 'package:nesthub/features/local/data/repository/local_repository.dart';
 import 'package:nesthub/features/local/domain/local.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/user_profile_screen.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
-import 'package:nesthub/steps_pages/local_detail_screen.dart';
+import 'package:nesthub/local_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -162,7 +163,10 @@ class _HomeScreenState extends State<HomeScreen> {
               );
               break;
             case 1:
-              break;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FavoriteListPage()),
+              );
             case 2:
               Navigator.push(
                 context,

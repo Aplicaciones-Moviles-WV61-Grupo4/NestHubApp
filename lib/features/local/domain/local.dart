@@ -11,6 +11,7 @@ class Local {
   final int localCategoryId;
   final int userId;
   final List<Review> reviews;
+  final bool isFavorite;
 
   Local(
       {required this.district,
@@ -22,7 +23,8 @@ class Local {
       required this.descriptionMessage,
       required this.localCategoryId,
       required this.userId,
-      this.reviews = const []});
+      this.reviews = const [],
+      required this.isFavorite});
 
   Map<String, dynamic> toJson() {
     return {
