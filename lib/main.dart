@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/login_screen.dart';
+import 'package:nesthub/features/auth/presentation/login_screen.dart';
 
 void main() {
   runApp(const MainApp());

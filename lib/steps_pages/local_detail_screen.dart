@@ -174,7 +174,6 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                   ),
                 ],
               ),
-              // Aquí se muestran las reseñas desde el modelo `Local`
               ..._buildReviews(),
               const SizedBox(height: 16),
               Row(
@@ -207,9 +206,7 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     );
   }
 
-  // Método para construir las reseñas desde el modelo `Local`
   List<Widget> _buildReviews() {
-    // Si no hay reseñas, mostramos un mensaje indicando eso
     if (widget.localModel.reviews.isEmpty) {
       return [
         const Padding(

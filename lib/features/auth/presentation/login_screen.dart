@@ -1,9 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:nesthub/features/auth/remote/auth_service.dart';
 import 'package:nesthub/home_screen.dart';
-import 'package:nesthub/registration_screen.dart';
+import 'package:nesthub/features/auth/presentation/registration_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
+
+  Future<void> _signIn() async {
+    try {
+      final response = await _authService.signIn(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('¡Bienvenido, ${response['username']}!')),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +46,8 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Center(
-              // Centrar el contenido
               child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Centrar verticalmente
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
@@ -41,6 +71,7 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         TextField(
+                          controller: _emailController,
                           decoration: InputDecoration(
                             labelText: 'Ingresar su correo',
                             labelStyle: const TextStyle(color: Colors.black),
@@ -53,6 +84,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const Divider(height: 1, color: Colors.black),
                         TextField(
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Ingresar su contraseña',
@@ -78,12 +110,7 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
-                      },
+                      onPressed: _signIn,
                       child: const Text(
                         'Continuar',
                         style: TextStyle(color: Colors.black),
@@ -145,11 +172,11 @@ class LoginScreen extends StatelessWidget {
     required String text,
     required Color color,
     required Color borderColor,
-    void Function()? onPressed, // Agregar callback onPressed
+    void Function()? onPressed,
   }) {
     return SizedBox(
       width: 290,
-      height: 50, // Aumentar la altura del botón
+      height: 50,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           backgroundColor: color,
@@ -159,22 +186,20 @@ class LoginScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: onPressed ??
-            () {
-              // Handle social login or registration
-            },
+        onPressed: onPressed ?? () {},
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start, // Alinear al inicio
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(
               asset,
-              width: 24, // Aumentar el tamaño del ícono
-              height: 24, // Aumentar el tamaño del ícono
+              width: 24,
+              height: 24,
             ),
-            const SizedBox(width: 15), // Espacio entre ícono y texto
-            Text(text,
-                style: const TextStyle(
-                    fontSize: 16, color: Colors.black)), // Texto negro
+            const SizedBox(width: 15),
+            Text(
+              text,
+              style: const TextStyle(fontSize: 16, color: Colors.black),
+            ),
           ],
         ),
       ),

@@ -75,10 +75,11 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const UserProfileScreen(preferredName: 'Huesped',))
-                            );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserProfileScreen(
+                                        preferredName: 'Huesped',
+                                      )));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFB44101),
@@ -96,10 +97,11 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                       OutlinedButton(
                         onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const UserProfileScreen(preferredName: 'Huesped',))
-                            );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserProfileScreen(
+                                        preferredName: 'Huesped',
+                                      )));
                         },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(

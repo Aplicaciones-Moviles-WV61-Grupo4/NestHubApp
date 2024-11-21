@@ -6,4 +6,5 @@ class AppConstants {
   static const String localsEndpoint = '/locals';
   static const String profilesEndpoint = '/profiles';
   static const String usersEndpoint = '/users';
+  static const String loginEndpoint = '/authentication';
 }

@@ -10,7 +10,7 @@ class Local {
   final String descriptionMessage;
   final int localCategoryId;
   final int userId;
-  final List<Review> reviews; // Agregar reseñas aquí.
+  final List<Review> reviews;
 
   Local(
       {required this.district,
@@ -22,8 +22,7 @@ class Local {
       required this.descriptionMessage,
       required this.localCategoryId,
       required this.userId,
-      this.reviews = const [] // Aseguramos que las reseñas se pasen también
-      });
+      this.reviews = const []});
 
   Map<String, dynamic> toJson() {
     return {
@@ -36,9 +35,7 @@ class Local {
       'descriptionMessage': descriptionMessage,
       'localCategoryId': localCategoryId,
       'userId': userId,
-      'reviews': reviews
-          .map((review) => review.toJson())
-          .toList(), // Convertir reseñas a JSON
+      'reviews': reviews.map((review) => review.toJson()).toList(),
     };
   }
 }

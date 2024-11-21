@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/accessibility_page.dart';
+import 'package:nesthub/features/auth/presentation/login_screen.dart';
 import 'package:nesthub/home_screen.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
@@ -7,9 +8,8 @@ import 'package:nesthub/paymet_page.dart';
 import 'package:nesthub/personal_information_page.dart';
 import 'package:nesthub/steps_pages/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
-import 'package:nesthub/login_screen.dart';
-class UserProfileScreen extends StatelessWidget {
 
+class UserProfileScreen extends StatelessWidget {
   final String preferredName;
   const UserProfileScreen({super.key, required this.preferredName});
 
@@ -32,10 +32,9 @@ class UserProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications, color: Colors.orange),
             onPressed: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const NotificacionScreen())
-                );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotificacionScreen()));
             },
           ),
         ],
@@ -58,7 +57,9 @@ class UserProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        preferredName.isNotEmpty ? 'Hola, $preferredName' : 'Hola, huésped',
+                        preferredName.isNotEmpty
+                            ? 'Hola, $preferredName'
+                            : 'Hola, huésped',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -112,55 +113,56 @@ class UserProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               _buildMenuButton('assets/profile_icons/informacion_personal.png',
-                  'Información personal', 
-                  () {
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (context) => const PersonalInformationPage(),
-                      ),
-                    ).then((updatedPreferredName) {
-                      if (updatedPreferredName != null) {
-                        Navigator.pushReplacement(
-                          context, 
-                          MaterialPageRoute(
-                            builder: (context) => UserProfileScreen(preferredName: updatedPreferredName),
-                          ),
-                        );
-                      }
-                    });
-                  }
-                ),
-              _buildMenuButton('assets/profile_icons/pagos_cobros.png',
-                  'Pagos y cobros', () {
-                    Navigator.push(
+                  'Información personal', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PersonalInformationPage(),
+                  ),
+                ).then((updatedPreferredName) {
+                  if (updatedPreferredName != null) {
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PaymentsPage(),
+                        builder: (context) => UserProfileScreen(
+                            preferredName: updatedPreferredName),
                       ),
                     );
-                  }),
+                  }
+                });
+              }),
+              _buildMenuButton(
+                  'assets/profile_icons/pagos_cobros.png', 'Pagos y cobros',
+                  () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PaymentsPage(),
+                  ),
+                );
+              }),
               _buildMenuButton('assets/profile_icons/seguridad.png',
                   'Inicio de sesión y seguridad', () {}),
-              _buildMenuButton('assets/profile_icons/accesibilidad.png',
-                  'Accesibilidad', 
+              _buildMenuButton(
+                  'assets/profile_icons/accesibilidad.png', 'Accesibilidad',
                   () {
-                    Navigator.push(
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AccessibilityPage(),
+                  ),
+                );
+              }),
+              _buildMenuButton(
+                'assets/profile_icons/notificacion.png',
+                'Notificaciones',
+                () {
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AccessibilityPage(),
-                      ),
-                    );
-                  }),
-              _buildMenuButton('assets/profile_icons/notificacion.png',
-                  'Notificaciones', 
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NotificacionScreen())
-                      );
-                  },),
+                          builder: (context) => const NotificacionScreen()));
+                },
+              ),
               _buildMenuButton('assets/profile_icons/datos_personales.png',
                   'Configuración de datos personales', () {}),
               const SizedBox(height: 30),
@@ -217,11 +219,11 @@ class UserProfileScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
                 },
                 child: const Text('Cerrar sesión'),
               ),
