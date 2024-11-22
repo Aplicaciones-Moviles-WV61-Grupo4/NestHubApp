@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:nesthub/core/app_constants.dart';
 import 'package:nesthub/features/auth/data/remote/user_dto.dart';
 import 'package:nesthub/features/auth/data/remote/user_request.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl = '${AppConstants.baseUrl}${AppConstants.loginEndpoint}';
@@ -15,7 +16,11 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      return UserDto.fromMap(json.decode(response.body));
+      UserDto userDto = UserDto.fromMap(json.decode(response.body));
+
+      await _saveUserName(userDto.username);
+
+      return userDto;
     } else {
       throw Exception('Error al iniciar sesión: ${response.reasonPhrase}');
     }
@@ -29,9 +34,31 @@ class AuthService {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return json.decode(response.body)['message'];
+      String message = json.decode(response.body)['message'];
+
+      if (json.decode(response.body)['username'] != null) {
+        String userName = json.decode(response.body)['username'];
+        await _saveUserName(userName);
+      }
+
+      return message;
     } else {
       throw Exception('Error al registrarse: ${response.reasonPhrase}');
     }
+  }
+
+  Future<void> _saveUserName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_name', name);
+  }
+
+  Future<String> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('user_name');
+
+    if (name == null) {
+      return 'Invitado';
+    }
+    return name;
   }
 }

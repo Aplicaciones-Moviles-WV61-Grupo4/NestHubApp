@@ -78,7 +78,7 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const UserProfileScreen(
-                                        preferredName: 'Huesped',
+                                      //preferredName: 'Huesped',
                                       )));
                         },
                         style: ElevatedButton.styleFrom(
@@ -100,7 +100,7 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const UserProfileScreen(
-                                        preferredName: 'Huesped',
+                                      //preferredName: 'Huesped',
                                       )));
                         },
                         style: OutlinedButton.styleFrom(

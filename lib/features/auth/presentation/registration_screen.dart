@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nesthub/features/auth/data/remote/auth_service.dart';
+import 'package:nesthub/features/auth/data/repository/auth_repository.dart';
 import 'package:nesthub/features/auth/domain/user.dart';
 import 'package:nesthub/home_screen.dart';
 
@@ -24,10 +24,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _phoneController = TextEditingController();
   bool _termsAccepted = false;
 
+  final AuthRepository _authRepository = AuthRepository();
+
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Crear una instancia de la entidad User
     final user = User(
       username: _usernameController.text,
       password: _passwordController.text,
@@ -40,8 +41,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
 
     try {
-      final authService = AuthService();
-      await authService.signUp(user.toJson());
+      await _authRepository.register(user.toJson());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Registro exitoso')),
       );
@@ -239,22 +239,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: TextFormField(
-            controller: controller,
-            decoration: InputDecoration(
-              hintText: hint,
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.all(16),
+        TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
-            obscureText: obscureText,
-            keyboardType: keyboardType,
-            validator: validator,
           ),
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          validator: validator,
         ),
       ],
     );

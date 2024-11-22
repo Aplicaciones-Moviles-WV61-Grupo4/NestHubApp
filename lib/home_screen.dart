@@ -165,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
             case 1:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const FavoriteListPage()),
+                MaterialPageRoute(
+                    builder: (context) => const FavoriteListPage()),
               );
             case 2:
               Navigator.push(
@@ -178,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const UserProfileScreen(
-                          preferredName: 'Huesped',
+                        //preferredName: 'Huesped',
                         )),
               );
               break;

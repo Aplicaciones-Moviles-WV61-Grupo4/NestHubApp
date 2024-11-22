@@ -111,7 +111,7 @@ class MessageScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const UserProfileScreen(
-                          preferredName: 'Huesped',
+                        //preferredName: 'Huesped',
                         )),
               );
               break;

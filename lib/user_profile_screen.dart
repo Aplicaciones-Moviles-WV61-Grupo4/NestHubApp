@@ -8,10 +8,32 @@ import 'package:nesthub/paymet_page.dart';
 import 'package:nesthub/personal_information_page.dart';
 import 'package:nesthub/steps_pages/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
+import 'package:nesthub/features/auth/data/remote/auth_service.dart';
 
-class UserProfileScreen extends StatelessWidget {
-  final String preferredName;
-  const UserProfileScreen({super.key, required this.preferredName});
+class UserProfileScreen extends StatefulWidget {
+  const UserProfileScreen({super.key});
+
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  String _userName = 'Invitado'; // Valor predeterminado
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  // Cargar el nombre de usuario desde SharedPreferences
+  _loadUserName() async {
+    final authService = AuthService();
+    String name = await authService.getUserName();
+    setState(() {
+      _userName = name;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +79,7 @@ class UserProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        preferredName.isNotEmpty
-                            ? 'Hola, $preferredName'
-                            : 'Hola, huésped',
+                        'Hola, $_userName', // Mostrar el nombre del usuario
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -119,17 +139,7 @@ class UserProfileScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => const PersonalInformationPage(),
                   ),
-                ).then((updatedPreferredName) {
-                  if (updatedPreferredName != null) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserProfileScreen(
-                            preferredName: updatedPreferredName),
-                      ),
-                    );
-                  }
-                });
+                );
               }),
               _buildMenuButton(
                   'assets/profile_icons/pagos_cobros.png', 'Pagos y cobros',
@@ -256,7 +266,11 @@ class UserProfileScreen extends StatelessWidget {
               );
               break;
             case 3:
-              // Ya estamos en el perfil, no hay acción
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen()),
+              );
               break;
           }
         },
@@ -264,15 +278,23 @@ class UserProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuButton(String icon, String title, VoidCallback onPressed) {
-    return ListTile(
-      leading: Image.asset(
-        icon,
-        width: 24,
-        height: 24,
-      ),
-      title: Text(title),
+  Widget _buildMenuButton(
+      String imagePath, String text, VoidCallback onPressed) {
+    return GestureDetector(
       onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+        ),
+        child: Row(
+          children: [
+            Image.asset(imagePath, width: 24),
+            const SizedBox(width: 16),
+            Text(text, style: const TextStyle(fontSize: 16)),
+          ],
+        ),
+      ),
     );
   }
 }
