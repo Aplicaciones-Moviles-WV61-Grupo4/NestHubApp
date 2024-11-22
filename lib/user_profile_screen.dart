@@ -18,15 +18,13 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  String _userName = 'Invitado'; // Valor predeterminado
-
+  String _userName = 'Invitado';
   @override
   void initState() {
     super.initState();
     _loadUserName();
   }
 
-  // Cargar el nombre de usuario desde SharedPreferences
   _loadUserName() async {
     final authService = AuthService();
     String name = await authService.getUserName();
@@ -79,7 +77,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hola, $_userName', // Mostrar el nombre del usuario
+                        'Hola, $_userName',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -257,7 +255,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               );
               break;
             case 1:
-              // Navegar a Favoritos (puedes agregar tu lógica aquí)
               break;
             case 2:
               Navigator.push(
