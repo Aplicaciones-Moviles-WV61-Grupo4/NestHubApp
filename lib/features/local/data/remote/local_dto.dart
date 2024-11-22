@@ -1,5 +1,4 @@
 import 'package:nesthub/features/local/domain/local.dart';
-import 'package:nesthub/features/local/domain/review.dart';
 
 class LocalDto {
   final int id;
@@ -11,7 +10,6 @@ class LocalDto {
   final String descriptionMessage;
   final int localCategoryId;
   final String localCategoryName;
-  final List<Review> reviews;
 
   LocalDto({
     required this.id,
@@ -23,7 +21,6 @@ class LocalDto {
     required this.descriptionMessage,
     required this.localCategoryId,
     required this.localCategoryName,
-    required this.reviews,
   });
 
   factory LocalDto.fromJson(Map<String, dynamic> json) {
@@ -37,10 +34,6 @@ class LocalDto {
       descriptionMessage: json['local']['descriptionMessage'] ?? '',
       localCategoryId: json['local']['localCategory']['id'] ?? 0,
       localCategoryName: json['local']['localCategory']['name'] ?? '',
-      reviews: (json['reviews'] as List<dynamic>?)
-              ?.map((reviewJson) => Review.fromJson(reviewJson))
-              .toList() ??
-          [],
     );
   }
 
@@ -57,24 +50,23 @@ class LocalDto {
           'id': localCategoryId,
           'name': localCategoryName,
         },
-        'userId': 1 // Aquí asigna el ID del usuario correspondiente
+        'userId': 1
       }
     };
   }
 
   Local toLocal() {
     return Local(
-      district: '',
-      street: streetAddress,
-      title: title,
-      city: cityPlace,
-      price: nightPrice,
-      photoUrl: photoUrl,
-      descriptionMessage: descriptionMessage,
-      localCategoryId: localCategoryId,
-      reviews: reviews, // Aseguramos que las reseñas también se incluyan
-      userId: 1,
-      isFavorite: false
-    );
+        id: id,
+        district: '',
+        street: streetAddress,
+        title: title,
+        city: cityPlace,
+        price: nightPrice,
+        photoUrl: photoUrl,
+        descriptionMessage: descriptionMessage,
+        localCategoryId: localCategoryId,
+        userId: 1,
+        isFavorite: false);
   }
 }

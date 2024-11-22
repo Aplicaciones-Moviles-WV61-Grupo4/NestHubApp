@@ -45,8 +45,7 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
       descriptionMessage: widget.description,
       localCategoryId: widget.localCategoryId,
       userId: 1,
-      reviews: [],
-      isFavorite: false, // Pasando una lista vacía de reseñas
+      isFavorite: false,
     );
 
     try {
@@ -115,7 +114,7 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context); // Regresar a la página anterior
+                      Navigator.pop(context);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF01698C)),
@@ -129,8 +128,7 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed:
-                        _submitData, // Llamar a la función para enviar datos
+                    onPressed: _submitData,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
                       foregroundColor: Colors.white,

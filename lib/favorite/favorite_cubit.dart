@@ -16,7 +16,7 @@ class FavoriteCubit extends Cubit<Local> {
         descriptionMessage: state.descriptionMessage,
         localCategoryId: state.localCategoryId,
         userId: state.userId,
-        reviews: state.reviews,
+        //reviews: state.reviews,
         isFavorite: value,
       ));
     });
@@ -50,7 +50,7 @@ class FavoriteCubit extends Cubit<Local> {
         descriptionMessage: state.descriptionMessage,
         localCategoryId: state.localCategoryId,
         userId: state.userId,
-        reviews: state.reviews,
+        //reviews: state.reviews,
         isFavorite: isFavorite,
       ),
     );

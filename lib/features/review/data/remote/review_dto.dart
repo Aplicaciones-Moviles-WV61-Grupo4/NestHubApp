@@ -1,11 +1,11 @@
-class Review {
+class ReviewDto {
   final int id;
   final int userId;
   final int localId;
   final int rating;
   final String comment;
 
-  Review({
+  ReviewDto({
     required this.id,
     required this.userId,
     required this.localId,
@@ -13,13 +13,13 @@ class Review {
     required this.comment,
   });
 
-  factory Review.fromJson(Map<String, dynamic> json) {
-    return Review(
-      id: json['id'] ?? 0,
-      userId: json['userId'] ?? 0,
-      localId: json['localId'] ?? 0,
-      rating: json['rating'] ?? 0,
-      comment: json['comment'] ?? '',
+  factory ReviewDto.fromJson(Map<String, dynamic> json) {
+    return ReviewDto(
+      id: json['id'],
+      userId: json['userId'],
+      localId: json['localId'],
+      rating: json['rating'],
+      comment: json['comment'],
     );
   }
 

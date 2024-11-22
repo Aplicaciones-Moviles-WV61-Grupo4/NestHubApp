@@ -1,7 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:nesthub/features/local/domain/local.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
+import 'package:nesthub/core/app_constants.dart';
+import 'package:nesthub/features/local/domain/local.dart';
+import 'package:nesthub/features/review/data/remote/review_dto.dart';
+import 'package:nesthub/features/review/domain/review.dart';
 
 class LocalDetailScreen extends StatefulWidget {
   const LocalDetailScreen({super.key, required this.localModel});
@@ -13,14 +18,17 @@ class LocalDetailScreen extends StatefulWidget {
 
 class _LocalDetailScreenState extends State<LocalDetailScreen> {
   bool isFavorite = false;
+  LatLng? _location;
+  List<Review> reviews = [];
+  bool isLoading = true;
 
   final LatLng _defaultCenter = const LatLng(-12.1416, -77.0219);
-  LatLng? _location;
 
   @override
   void initState() {
     super.initState();
     _getLocationFromAddress(widget.localModel.street);
+    _fetchReviews();
   }
 
   Future<void> _getLocationFromAddress(String address) async {
@@ -40,11 +48,36 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     }
   }
 
+  Future<void> _fetchReviews() async {
+    final String url = AppConstants.baseUrl +
+        AppConstants.reviewFromLocalEndpoint(widget.localModel.id);
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          reviews = data
+              .map((json) => Review.fromDto(ReviewDto.fromJson(json)))
+              .toList();
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load reviews');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   double get averageRating {
-    if (widget.localModel.reviews.isEmpty) return 0;
-    int totalRating =
-        widget.localModel.reviews.fold(0, (sum, review) => sum + review.rating);
-    return totalRating / widget.localModel.reviews.length;
+    if (reviews.isEmpty) return 0;
+    int totalRating = reviews.fold(0, (sum, review) => sum + review.rating);
+    return totalRating / reviews.length;
   }
 
   @override
@@ -67,42 +100,10 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
           child: ListView(
             padding: const EdgeInsets.all(16.0),
             children: [
-              Stack(
-                children: [
-                  Image.network(
-                    widget.localModel.photoUrl,
-                    height: height * 0.25,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.black54,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
-                        },
-                        icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color:
-                              isFavorite ? Colors.red : Colors.yellow.shade800,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              _buildHeader(height),
               const SizedBox(height: 16),
               Text(
-                widget.localModel.street,
+                widget.localModel.title,
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -115,7 +116,7 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                 children: [
                   const Icon(Icons.star, color: Colors.orange),
                   Text(
-                    '${averageRating.toStringAsFixed(2)} · ${widget.localModel.reviews.length} ${widget.localModel.reviews.length == 1 ? 'reseña' : 'reseñas'}',
+                    '${averageRating.toStringAsFixed(2)} · ${reviews.length} ${reviews.length == 1 ? 'reseña' : 'reseñas'}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -149,7 +150,6 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
               const Text('A dónde irás',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              const SizedBox(height: 8),
               Text(widget.localModel.street,
                   style: const TextStyle(fontSize: 14)),
               const SizedBox(height: 8),
@@ -165,21 +165,15 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                   ),
                 ),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.orange),
-                  Text(
-                    '${averageRating.toStringAsFixed(2)} · ${widget.localModel.reviews.length} ${widget.localModel.reviews.length == 1 ? 'reseña' : 'reseñas'}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+              const Text('Reseñas',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
               ..._buildReviews(),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${widget.localModel.price} / noche',
+                  Text('S/ ${widget.localModel.price} / noche',
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   ElevatedButton(
@@ -206,20 +200,39 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     );
   }
 
-  List<Widget> _buildReviews() {
-    if (widget.localModel.reviews.isEmpty) {
-      return [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text('No hay reseñas aún',
-              style: TextStyle(fontStyle: FontStyle.italic)),
+  Widget _buildHeader(double height) {
+    return Stack(
+      children: [
+        Image.network(
+          widget.localModel.photoUrl,
+          height: height * 0.25,
+          width: double.infinity,
+          fit: BoxFit.cover,
         ),
-      ];
-    }
-
-    return widget.localModel.reviews.map((review) {
-      return _buildReview(review.rating, review.comment);
-    }).toList();
+        Positioned(
+          top: 8,
+          right: 8,
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.black54,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  isFavorite = !isFavorite;
+                });
+              },
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.yellow.shade800,
+                size: 30,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   static Widget _buildFeature(IconData icon, String title, String description) {
@@ -245,41 +258,47 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     );
   }
 
-  static Widget _buildAmenity(IconData icon, String name) {
+  static Widget _buildAmenity(IconData icon, String amenity) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         children: [
           Icon(icon),
           const SizedBox(width: 8),
-          Text(name),
+          Text(amenity),
         ],
       ),
     );
   }
 
-  static Widget _buildReview(int rating, String comment) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              // Mostrar las estrellas según el rating
-              for (int i = 0; i < rating; i++)
-                const Icon(Icons.star, color: Colors.orange, size: 16),
-              for (int i = rating; i < 5; i++)
-                const Icon(Icons.star_border, color: Colors.orange, size: 16),
-              const SizedBox(width: 8),
-              Text('$rating/5',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(comment),
-        ],
+  List<Widget> _buildReviews() {
+    if (reviews.isEmpty) {
+      return [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('No hay reseñas aún',
+              style: TextStyle(fontStyle: FontStyle.italic)),
+        ),
+      ];
+    }
+
+    return reviews.map((review) {
+      return _buildReview(review.rating, review.comment);
+    }).toList();
+  }
+
+  Widget _buildReview(int rating, String comment) {
+    return ListTile(
+      leading: const Icon(Icons.person),
+      title: Row(
+        children: List.generate(5, (index) {
+          return Icon(
+            Icons.star,
+            color: index < rating ? Colors.orange : Colors.grey,
+          );
+        }),
       ),
+      subtitle: Text(comment),
     );
   }
 }

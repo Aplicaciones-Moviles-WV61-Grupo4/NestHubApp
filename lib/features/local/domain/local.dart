@@ -1,6 +1,5 @@
-import 'package:nesthub/features/local/domain/review.dart';
-
 class Local {
+  final int id;
   final String district;
   final String street;
   final String title;
@@ -10,24 +9,25 @@ class Local {
   final String descriptionMessage;
   final int localCategoryId;
   final int userId;
-  final List<Review> reviews;
   final bool isFavorite;
 
-  Local(
-      {required this.district,
-      required this.street,
-      required this.title,
-      required this.city,
-      required this.price,
-      required this.photoUrl,
-      required this.descriptionMessage,
-      required this.localCategoryId,
-      required this.userId,
-      this.reviews = const [],
-      required this.isFavorite});
+  Local({
+    this.id = 0,
+    required this.district,
+    required this.street,
+    required this.title,
+    required this.city,
+    required this.price,
+    required this.photoUrl,
+    required this.descriptionMessage,
+    required this.localCategoryId,
+    required this.userId,
+    required this.isFavorite,
+  });
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'district': district,
       'street': street,
       'title': title,
@@ -37,7 +37,6 @@ class Local {
       'descriptionMessage': descriptionMessage,
       'localCategoryId': localCategoryId,
       'userId': userId,
-      'reviews': reviews.map((review) => review.toJson()).toList(),
     };
   }
 }
