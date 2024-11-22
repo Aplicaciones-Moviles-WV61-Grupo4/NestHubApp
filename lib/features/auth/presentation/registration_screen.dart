@@ -23,6 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   bool _termsAccepted = false;
+  bool _isPasswordVisible = false;
 
   final AuthRepository _authRepository = AuthRepository();
 
@@ -112,15 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       : null,
                 ),
                 const SizedBox(height: 16),
-                _buildTextField(
-                  controller: _passwordController,
-                  label: 'Contraseña',
-                  hint: 'Ingresa una contraseña',
-                  obscureText: true,
-                  validator: (value) => value!.length < 6
-                      ? 'La contraseña debe tener al menos 6 caracteres'
-                      : null,
-                ),
+                _buildPasswordField(),
                 const SizedBox(height: 16),
                 const Text(
                   'Fecha de nacimiento',
@@ -250,6 +243,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           obscureText: obscureText,
           keyboardType: keyboardType,
           validator: validator,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Contraseña',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _passwordController,
+          obscureText: !_isPasswordVisible,
+          decoration: InputDecoration(
+            hintText: 'Ingresa una contraseña',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+          ),
+          validator: (value) => value!.length < 6
+              ? 'La contraseña debe tener al menos 6 caracteres'
+              : null,
         ),
       ],
     );
