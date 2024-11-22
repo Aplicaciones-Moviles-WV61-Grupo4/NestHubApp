@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/features/auth/remote/auth_service.dart';
+import 'package:nesthub/features/auth/data/remote/auth_service.dart';
+import 'package:nesthub/features/auth/data/remote/user_request.dart';
 import 'package:nesthub/home_screen.dart';
 import 'package:nesthub/features/auth/presentation/registration_screen.dart';
 
@@ -17,13 +18,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _signIn() async {
     try {
-      final response = await _authService.signIn(
-        _emailController.text.trim(),
-        _passwordController.text.trim(),
+      final userRequest = UserRequest(
+        username: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
 
+      final userDto = await _authService.signIn(userRequest);
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('¡Bienvenido, ${response['username']}!')),
+        SnackBar(content: Text('¡Bienvenido, ${userDto.username}!')),
       );
 
       Navigator.pushReplacement(
