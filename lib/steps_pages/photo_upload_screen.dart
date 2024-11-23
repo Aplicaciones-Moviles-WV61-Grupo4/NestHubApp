@@ -65,53 +65,56 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Agrega algunas fotos de tu espacio',
-                style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Agrega algunas fotos de tu espacio',
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Para empezar, necesitarás cuatro fotos. Después podrás agregar más o hacer cambios.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color.fromARGB(255, 61, 61, 61),
+                const SizedBox(height: 8),
+                const Text(
+                  'Para empezar, necesitarás cuatro fotos. Después podrás agregar más o hacer cambios.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 61, 61, 61),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: _buildPhotoButton(
-                  context,
-                  imagePath: 'assets/photo_upload_icons/agregar_fotos.png',
-                  label: 'Agrega fotos',
-                  onPressed: () {
-                    _pickImage(ImageSource.gallery);
-                  },
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: _buildPhotoButton(
+                    context,
+                    imagePath: 'assets/photo_upload_icons/agregar_fotos.png',
+                    label: 'Agrega fotos',
+                    onPressed: () {
+                      _pickImage(ImageSource.gallery);
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: _buildPhotoButton(
-                  context,
-                  imagePath: 'assets/photo_upload_icons/foto_nueva.png',
-                  label: 'Toma fotos nuevas',
-                  onPressed: () {
-                    _pickImage(ImageSource.camera);
-                  },
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: _buildPhotoButton(
+                    context,
+                    imagePath: 'assets/photo_upload_icons/foto_nueva.png',
+                    label: 'Toma fotos nuevas',
+                    onPressed: () {
+                      _pickImage(ImageSource.camera);
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: GridView.builder(
+                const SizedBox(height: 24),
+                GridView.builder(
+                  shrinkWrap:
+                      true, // Para evitar conflictos con SingleChildScrollView
+                  physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 8,
@@ -122,72 +125,75 @@ class _PhotoUploadScreenState extends State<PhotoUploadScreen> {
                     return Image.file(_images[index], fit: BoxFit.cover);
                   },
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF7BA884)),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Color(0xFF7BA884)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 24),
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
+                      child: const Text('Atrás'),
                     ),
-                    child: const Text('Atrás'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_images.isNotEmpty) {
-                        String imageUrl = await _uploadImageToImgur(_images[0]);
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_images.isNotEmpty) {
+                          String imageUrl =
+                              await _uploadImageToImgur(_images[0]);
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TitleDescriptionScreen(
-                              photoUrl:
-                                  imageUrl.isEmpty ? defaultPhotoUrl : imageUrl,
-                              district: widget.district,
-                              city: widget.city,
-                              street: widget.street,
-                              localCategoryId: widget.localCategoryId,
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TitleDescriptionScreen(
+                                photoUrl: imageUrl.isEmpty
+                                    ? defaultPhotoUrl
+                                    : imageUrl,
+                                district: widget.district,
+                                city: widget.city,
+                                street: widget.street,
+                                localCategoryId: widget.localCategoryId,
+                              ),
                             ),
-                          ),
-                        );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TitleDescriptionScreen(
-                              photoUrl: defaultPhotoUrl,
-                              district: widget.district,
-                              city: widget.city,
-                              street: widget.street,
-                              localCategoryId: widget.localCategoryId,
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TitleDescriptionScreen(
+                                photoUrl: defaultPhotoUrl,
+                                district: widget.district,
+                                city: widget.city,
+                                street: widget.street,
+                                localCategoryId: widget.localCategoryId,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF7BA884),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF7BA884),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
+                      child: const Text('Siguiente'),
                     ),
-                    child: const Text('Siguiente'),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

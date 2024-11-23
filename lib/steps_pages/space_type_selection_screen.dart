@@ -97,7 +97,7 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
     required int localCategoryId,
   }) {
     return SizedBox(
-      height: 100, // Reducimos un poco la altura del botón
+      height: 100,
       child: OutlinedButton(
         onPressed: () {
           Navigator.push(
@@ -121,15 +121,15 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
           children: [
             Image.asset(
               imagePath,
-              height: 60, // Reducimos la altura del ícono
+              height: 60,
             ),
             const SizedBox(height: 4),
             Text(
               label,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 12, // Reducimos el tamaño del texto
-                fontWeight: FontWeight.normal, // Estilo más ligero
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
               ),
             ),
           ],

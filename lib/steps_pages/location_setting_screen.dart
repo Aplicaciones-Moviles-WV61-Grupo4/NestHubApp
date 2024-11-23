@@ -130,19 +130,19 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
               const Text(
                 '¿Dónde se encuentra tu espacio?',
                 style: TextStyle(
-                  fontSize: 34,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               const Text(
                 'Solo compartiremos tu dirección con los huéspedes que hayan hecho una reservación',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 8,
                   color: Color.fromARGB(255, 61, 61, 61),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               TextField(
                 controller: _streetController,
                 decoration: const InputDecoration(
@@ -151,7 +151,7 @@ class _LocationSettingScreenState extends State<LocationSettingScreen> {
                 ),
                 onSubmitted: (value) => _updateMapLocation(value),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               SizedBox(
                 height: 300,
                 child: GoogleMap(

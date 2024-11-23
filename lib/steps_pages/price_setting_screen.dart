@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nesthub/features/local/domain/local.dart';
 import 'package:nesthub/features/local/data/remote/local_service.dart';
-import 'package:nesthub/steps_pages/publish_screen.dart';
+import 'package:nesthub/home_screen.dart'; // Importamos HomeScreen para navegar a él.
 
 class PriceSettingScreen extends StatefulWidget {
   final String district;
@@ -49,11 +49,14 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
     );
 
     try {
+      // Enviar datos al backend
       await _localService.pushLocal(localData);
-      Navigator.push(
+
+      // Navegar directamente a HomeScreen después de la acción
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => PublishScreen(localData: localData),
+          builder: (context) => const HomeScreen(),
         ),
       );
     } catch (e) {
@@ -128,7 +131,8 @@ class _PriceSettingScreenState extends State<PriceSettingScreen> {
                     child: const Text('Atrás'),
                   ),
                   ElevatedButton(
-                    onPressed: _submitData,
+                    onPressed:
+                        _submitData, // Llamamos a _submitData para enviar los datos y navegar
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF01698C),
                       foregroundColor: Colors.white,
