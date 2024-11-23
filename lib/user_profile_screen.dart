@@ -6,6 +6,7 @@ import 'package:nesthub/login_and_security_page.dart';
 import 'package:nesthub/message_screen.dart';
 import 'package:nesthub/notificacion_screen.dart';
 import 'package:nesthub/paymet_page.dart';
+import 'package:nesthub/personal_data_settings_page.dart';
 import 'package:nesthub/personal_information_page.dart';
 import 'package:nesthub/steps_pages/publishing_page.dart';
 import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
@@ -196,7 +197,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 },
               ),
               _buildMenuButton('assets/profile_icons/datos_personales.png',
-                  'Configuración de datos personales', () {}),
+                  'Configuración de datos personales', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PersonalDataSettingsPage(),
+                      ),
+                    );
+                  }),
               const SizedBox(height: 30),
               const Text(
                 'Hospedar',
