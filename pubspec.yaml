@@ -1,0 +1,84 @@
+name: nesthub
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_maps_flutter: ^2.0.6
+  intl: ^0.17.0
+  image_picker: ^0.8.4+4
+  photo_manager: ^3.5.2
+  http: ^1.2.2
+  path_provider: ^2.0.11
+  permission_handler: ^10.2.0
+  location: ^7.0.1
+  geocoding: ^3.0.0
+  infinite_scroll_pagination: ^4.0.0
+  flutter_bloc: ^8.1.6
+  sqflite: ^2.4.1
+  path: ^1.9.0
+  shared_preferences: ^2.3.3
+  dartz: ^0.10.1
+  flutter_local_notifications: ^18.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: true
+  ios: true
+  web:
+    generate: true
+  windows:
+    generate: true
+  macos:
+    generate: true
+  image_path: "assets/login_icons/nesthub-app-logo.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/login_icons/icon_facebook.png
+    - assets/login_icons/icon_google.png
+    - assets/login_icons/icon_mail.png
+    - assets/login_icons/icon_person_add.png
+    - assets/steps_icons/step_1/step1.png
+    - assets/steps_icons/step_2/step2.png
+    - assets/steps_icons/step3.png
+    - assets/steps_icons/icon_profile.png
+    - assets/space_type_icons/
+    - assets/photo_upload_icons/
+    - assets/profile_icons/accesibilidad.png
+    - assets/profile_icons/centro_ayuda.png
+    - assets/profile_icons/comentarios.png
+    - assets/profile_icons/como_funciona.png
+    - assets/profile_icons/datos_personales.png
+    - assets/profile_icons/denunciar_problema.png
+    - assets/profile_icons/guias.png
+    - assets/profile_icons/icon_profile.png
+    - assets/profile_icons/informacion_personal.png
+    - assets/profile_icons/legal.png
+    - assets/profile_icons/notificacion.png
+    - assets/profile_icons/pagos_cobros.png
+    - assets/profile_icons/problemas_seguridad.png
+    - assets/profile_icons/publica_estado.png
+    - assets/profile_icons/seguridad.png
+    - assets/profile_icons/explora.png
+    - assets/profile_icons/favoritos.png
+    - assets/profile_icons/mensajes.png
+    - assets/profile_icons/logo_nesthub.png
+    - assets/profile_icons/message.png
+    - assets/profile_icons/image_confirmation.png
+    - assets/profile_icons/profile.png
+    - assets/profile_icons/publish.png
+    - assets/home_images/barranco.png
+    - assets/home_images/magdalena.png
+    - assets/home_images/
