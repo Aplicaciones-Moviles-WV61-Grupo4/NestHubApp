@@ -174,13 +174,18 @@ class _CardInputPageState extends State<CardInputPage> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    backgroundColor: Color(0xFF719C7A),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text('Listo'),
+                  child: const Text(
+                    'Listo',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),

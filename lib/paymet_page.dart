@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nesthub/payment_methods_page.dart';
+import 'package:nesthub/your_payments_page.dart';
 
 class PaymentsPage extends StatelessWidget {
   const PaymentsPage({Key? key}) : super(key: key);
@@ -7,9 +8,9 @@ class PaymentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[200],
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -30,14 +31,6 @@ class PaymentsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 32),
-              const Text(
-                'Viajar',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 16),
               _buildListItem(
                 icon: Icons.credit_card,
                 title: 'Métodos de pago',
@@ -54,7 +47,12 @@ class PaymentsPage extends StatelessWidget {
                 icon: Icons.list_alt,
                 title: 'Tus pagos',
                 onTap: () {
-                  // Navigate to payments
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const YourPaymentsPage(),
+                      ),
+                    );
                 },
               ),
             ],
