@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nesthub/favorite/favorite_model.dart';
 
 class FavoriteListItem extends StatelessWidget {
-  const FavoriteListItem({Key? key, required this.favorite, required this.onDelete}) : super(key: key);
+  const FavoriteListItem(
+      {Key? key, required this.favorite, required this.onDelete})
+      : super(key: key);
   final FavoriteModel favorite;
   final void Function() onDelete;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nesthub/favorite/favorite_list_page.dart';
+import 'package:nesthub/favorite/presentation/favorite_list_page.dart';
 import 'package:nesthub/features/local/data/remote/local_service.dart';
 import 'package:nesthub/features/local/data/repository/local_repository.dart';
 import 'package:nesthub/features/local/domain/local.dart';

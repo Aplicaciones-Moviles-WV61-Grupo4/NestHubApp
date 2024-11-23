@@ -1,6 +1,7 @@
 import 'package:nesthub/features/local/domain/local.dart';
 
 class FavoriteModel {
+  final int id; // Nuevo campo
   final int userId;
   final String district;
   final String street;
@@ -12,6 +13,7 @@ class FavoriteModel {
   final int localCategoryId;
 
   FavoriteModel({
+    this.id = 0, // Valor por defecto 0 para indicar que aún no tiene id
     required this.userId,
     required this.district,
     required this.street,
@@ -25,6 +27,7 @@ class FavoriteModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id, // Incluyendo el campo id
       'userId': userId,
       'district': district,
       'street': street,
@@ -39,28 +42,31 @@ class FavoriteModel {
 
   factory FavoriteModel.fromMap(Map<String, dynamic> map) {
     return FavoriteModel(
-        userId: map['userId'] ?? 0,
-        district: map['district'] ?? '',
-        street: map['street'] ?? '',
-        title: map['title'] ?? '',
-        city: map['city'] ?? '',
-        price: map['price'] ?? 0.0,
-        photoUrl: map['photoUrl'] ?? '',
-        descriptionMessage: map['descriptionMessage'] ?? '',
-        localCategoryId: map['localCategoryId'] ?? 0);
+      id: map['id'] ?? 0, // Asignamos el id desde la base de datos
+      userId: map['userId'] ?? 0,
+      district: map['district'] ?? '',
+      street: map['street'] ?? '',
+      title: map['title'] ?? '',
+      city: map['city'] ?? '',
+      price: map['price'] ?? 0,
+      photoUrl: map['photoUrl'] ?? '',
+      descriptionMessage: map['descriptionMessage'] ?? '',
+      localCategoryId: map['localCategoryId'] ?? 0,
+    );
   }
 
   Local toLocal() {
     return Local(
-        userId: userId,
-        district: district,
-        street: street,
-        title: title,
-        city: city,
-        price: price,
-        photoUrl: photoUrl,
-        descriptionMessage: descriptionMessage,
-        localCategoryId: localCategoryId,
-        isFavorite: false);
+      userId: userId,
+      district: district,
+      street: street,
+      title: title,
+      city: city,
+      price: price,
+      photoUrl: photoUrl,
+      descriptionMessage: descriptionMessage,
+      localCategoryId: localCategoryId,
+      isFavorite: false,
+    );
   }
 }

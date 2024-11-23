@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nesthub/favorite/favorite_cubit.dart';
 import 'package:nesthub/favorite/favorite_dao.dart';
-import 'package:nesthub/favorite/favorite_list_item.dart';
+import 'package:nesthub/favorite/presentation/favorite_list_item.dart';
 import 'package:nesthub/favorite/favorite_model.dart';
 import 'package:nesthub/favorite/local_state.dart';
 
@@ -15,7 +15,7 @@ class FavoriteListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => FavoriteCubit(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Favoritos')),
+        appBar: AppBar(title: Text('Favoritos')),
         body: BlocBuilder<FavoriteCubit, Tuple2<LocalState, FavoriteState>>(
           builder: (context, state) {
             return FutureBuilder<List<FavoriteModel>>(
@@ -41,9 +41,11 @@ class FavoriteListPage extends StatelessWidget {
                     return FavoriteListItem(
                       favorite: favorite,
                       onDelete: () {
-                        FavoriteDao().delete(favorite.userId);
+                        // Aquí eliminamos por el id
+                        FavoriteDao()
+                            .delete(favorite.id); // Usamos el id para eliminar
                         BlocProvider.of<FavoriteCubit>(context)
-                            .loadLocalData(favorite.toLocal());
+                            .loadFavoriteData(favorite);
                       },
                     );
                   },

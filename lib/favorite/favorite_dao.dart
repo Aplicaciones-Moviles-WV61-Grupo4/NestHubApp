@@ -17,12 +17,14 @@ class FavoriteDao {
     );
   }
 
-  Future<void> delete(int userId) async {
+  Future<void> delete(int id) async {
+    // Modificado para eliminar por id
     final db = await _database;
     await db.delete(
       tableName,
-      where: 'userId = ?',
-      whereArgs: [userId],
+      where:
+          'id = ?', // Usamos el campo 'id' para eliminar el favorito específico
+      whereArgs: [id],
     );
   }
 

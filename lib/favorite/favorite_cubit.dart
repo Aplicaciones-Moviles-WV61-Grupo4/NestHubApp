@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nesthub/favorite/favorite_dao.dart';
 import 'package:nesthub/favorite/favorite_model.dart';
 import 'package:nesthub/favorite/local_state.dart';
-import 'package:nesthub/features/local/domain/local.dart';
 
 class FavoriteCubit extends Cubit<Tuple2<LocalState, FavoriteState>> {
   FavoriteCubit()
@@ -24,20 +23,20 @@ class FavoriteCubit extends Cubit<Tuple2<LocalState, FavoriteState>> {
           ),
         );
 
-  void loadLocalData(Local local) async {
-    bool isFavorite = await FavoriteDao().isFavorite(local.userId);
+  void loadFavoriteData(FavoriteModel favorite) async {
+    bool isFavorite = await FavoriteDao().isFavorite(favorite.userId);
     emit(
       Tuple2(
         LocalState(
-          district: local.district,
-          street: local.street,
-          title: local.title,
-          city: local.city,
-          price: local.price,
-          photoUrl: local.photoUrl,
-          descriptionMessage: local.descriptionMessage,
-          localCategoryId: local.localCategoryId,
-          userId: local.userId,
+          district: favorite.district,
+          street: favorite.street,
+          title: favorite.title,
+          city: favorite.city,
+          price: favorite.price,
+          photoUrl: favorite.photoUrl,
+          descriptionMessage: favorite.descriptionMessage,
+          localCategoryId: favorite.localCategoryId,
+          userId: favorite.userId,
         ),
         FavoriteState(isFavorite: isFavorite),
       ),
