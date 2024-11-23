@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nesthub/features/auth/data/remote/auth_service.dart';
 
 class PersonalInformationPage extends StatefulWidget {
   const PersonalInformationPage({Key? key}) : super(key: key);
@@ -18,8 +19,25 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
     'address': false,
   };
 
-  final _firstNameController = TextEditingController(text: 'Cesar');
-  final _lastNameController = TextEditingController(text: 'Salas');
+  String _userName = 'Invitado';
+  @override
+  void initState() {
+    super.initState();
+    _userName = 'Huesped Anónimo';
+    _loadUserName();
+  }
+
+  _loadUserName() async {
+    final authService = AuthService();
+    String preferredName = await authService.getUserName();
+    setState(() {
+      _userName = preferredName;
+      _preferredNameController.text = preferredName;
+    });
+  }
+
+  final _firstNameController = TextEditingController(text: 'Huesped');
+  final _lastNameController = TextEditingController(text: 'Anónimo');
   final _preferredNameController = TextEditingController(text: 'No proporcionado');
   final _emailController = TextEditingController(text: 'No proporcionado');
   final _phoneController = TextEditingController(text: 'No proporcionado');

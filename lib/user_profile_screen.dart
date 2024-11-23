@@ -11,7 +11,7 @@ import 'package:nesthub/widgets/custom_bottom_navigation_bar.dart';
 import 'package:nesthub/features/auth/data/remote/auth_service.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  const UserProfileScreen({Key? key}) : super(key: key);
 
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
@@ -19,6 +19,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   String _userName = 'Invitado';
+  
   @override
   void initState() {
     super.initState();
@@ -84,7 +85,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PersonalInformationPage()),
+                          );
+                          if (result != null && result is String) {
+                            setState(() {
+                              _userName = result;
+                            });
+                          }
+                        },
                         child: const Text('Mostrar perfil'),
                       ),
                     ],
@@ -131,13 +142,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               const SizedBox(height: 10),
               _buildMenuButton('assets/profile_icons/informacion_personal.png',
-                  'Información personal', () {
-                Navigator.push(
+                  'Información personal', () async {
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const PersonalInformationPage(),
                   ),
                 );
+                if (result != null && result is String) {
+                  setState(() {
+                    _userName = result;
+                  });
+                }
               }),
               _buildMenuButton(
                   'assets/profile_icons/pagos_cobros.png', 'Pagos y cobros',
@@ -174,7 +190,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               _buildMenuButton('assets/profile_icons/datos_personales.png',
                   'Configuración de datos personales', () {}),
               const SizedBox(height: 30),
-              // Hospedar
               const Text(
                 'Hospedar',
                 style: TextStyle(
@@ -188,7 +203,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               _buildMenuButton(
                   'assets/profile_icons/guias.png', 'Tus guías', () {}),
               const SizedBox(height: 30),
-              // Asistencia
               const Text(
                 'Asistencia',
                 style: TextStyle(
@@ -208,7 +222,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               _buildMenuButton('assets/profile_icons/comentarios.png',
                   'Envíanos tus comentarios', () {}),
               const SizedBox(height: 30),
-              // Legal
               const Text(
                 'Legal',
                 style: TextStyle(

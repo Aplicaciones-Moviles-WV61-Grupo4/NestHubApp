@@ -9,6 +9,7 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Padding(
           padding: EdgeInsets.all(8.0),
@@ -18,7 +19,7 @@ class MessageScreen extends StatelessWidget {
           ),
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[200],
         foregroundColor: Colors.black,
       ),
       body: Padding(
