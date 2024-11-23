@@ -16,7 +16,7 @@ class AppDatabase {
       onCreate: (db, version) async {
         String query = '''
           CREATE TABLE $favoriteTable (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,  // Cambiado a AUTOINCREMENT
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             userId INTEGER,
             district TEXT,
             street TEXT,
@@ -36,7 +36,7 @@ class AppDatabase {
               .execute('ALTER TABLE $favoriteTable RENAME TO old_favorites;');
           await db.execute('''
             CREATE TABLE $favoriteTable (
-              id INTEGER PRIMARY KEY AUTOINCREMENT,  // Cambiado a AUTOINCREMENT
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
               userId INTEGER,
               district TEXT,
               street TEXT,
