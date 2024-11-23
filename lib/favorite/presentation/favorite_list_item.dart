@@ -23,15 +23,30 @@ class FavoriteListItem extends StatelessWidget {
         ),
         title: Text(
           favorite.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 10, // Tamaño de fuente reducido
+          ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(favorite.descriptionMessage,
-                maxLines: 2, softWrap: false, overflow: TextOverflow.ellipsis),
-            Text('S/. ${favorite.price} /noche',
-                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              favorite.descriptionMessage,
+              maxLines: 2,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 9, // Tamaño de fuente reducido
+              ),
+            ),
+            Text(
+              'S/. ${favorite.price} /noche',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 7, // Tamaño de fuente reducido
+              ),
+            ),
           ],
         ),
         trailing: IconButton(
