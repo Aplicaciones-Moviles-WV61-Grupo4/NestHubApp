@@ -6,7 +6,7 @@ class ReviewDto {
   final String comment;
 
   ReviewDto({
-    required this.id,
+    this.id = 0,
     required this.userId,
     required this.localId,
     required this.rating,

@@ -7,6 +7,7 @@ import 'package:nesthub/core/app_constants.dart';
 import 'package:nesthub/favorite/app_database.dart';
 import 'package:nesthub/features/local/domain/local.dart';
 import 'package:nesthub/features/review/data/remote/review_dto.dart';
+import 'package:nesthub/features/review/data/remote/review_service.dart';
 import 'package:nesthub/features/review/domain/review.dart';
 
 class LocalDetailScreen extends StatefulWidget {
@@ -22,6 +23,9 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
   LatLng? _location;
   List<Review> reviews = [];
   bool isLoading = true;
+
+  final TextEditingController _commentController = TextEditingController();
+  int? _rating = 0;
 
   final LatLng _defaultCenter = const LatLng(-12.1416, -77.0219);
 
@@ -123,11 +127,10 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
               Text(
                 widget.localModel.title,
                 style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(widget.localModel.city,
-                  style: const TextStyle(fontSize: 16)),
+              Text(widget.localModel.city, style: const TextStyle(fontSize: 8)),
               const Text('4 huéspedes · 1 habitación · 2 camas · 1 baño'),
               const SizedBox(height: 16),
               Row(
@@ -150,13 +153,13 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                   'Gracias a las reseñas, podemos estar seguros que es un buen lugar'),
               const SizedBox(height: 16),
               const Text('Descripción',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               Text(widget.localModel.descriptionMessage,
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 7)),
               const SizedBox(height: 16),
               const Text('Qué servicios ofrece',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               _buildAmenity(Icons.kitchen, 'Cocina'),
               _buildAmenity(Icons.wifi, 'Wifi'),
@@ -166,10 +169,10 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
               _buildAmenity(Icons.pool, 'Piscina al aire libre compartida'),
               const SizedBox(height: 16),
               const Text('A dónde irás',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               Text(widget.localModel.street,
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 7)),
               const SizedBox(height: 8),
               if (_location != null)
                 SizedBox(
@@ -184,16 +187,23 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
                 ),
               const SizedBox(height: 16),
               const Text('Reseñas',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               ..._buildReviews(),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: ElevatedButton(
+                  onPressed: _showAddReviewDialog,
+                  child: const Text('Añadir Reseña'),
+                ),
+              ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('S/ ${widget.localModel.price} / noche',
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
+                          fontSize: 9, fontWeight: FontWeight.bold)),
                   ElevatedButton(
                     onPressed: () {
                       // Manejar la reserva
@@ -215,6 +225,78 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showAddReviewDialog() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Añadir Reseña'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _commentController,
+                decoration: const InputDecoration(
+                  labelText: 'Comentario',
+                ),
+                maxLines: 4,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(5, (index) {
+                  return IconButton(
+                    icon: Icon(
+                      Icons.star,
+                      color: _rating != null && _rating! > index
+                          ? Colors.orange
+                          : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _rating = index +
+                            1; // Cambiar el valor de _rating al hacer clic
+                      });
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (_rating != null && _commentController.text.isNotEmpty) {
+                  final reviewDto = ReviewDto(
+                    userId: 1,
+                    localId: widget.localModel.id,
+                    rating: _rating!,
+                    comment: _commentController.text,
+                  );
+
+                  try {
+                    await ReviewService().addReview(reviewDto);
+                    _fetchReviews();
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    print('Error al agregar reseña: $e');
+                  }
+                }
+              },
+              child: const Text('Añadir Reseña'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -283,9 +365,19 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(description),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10, // Cambia el tamaño de fuente aquí
+                  ),
+                ),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    fontSize: 8, // Cambia el tamaño de fuente aquí
+                  ),
+                ),
               ],
             ),
           ),
@@ -296,12 +388,15 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
 
   static Widget _buildAmenity(IconData icon, String amenity) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: 4.0),
       child: Row(
         children: [
           Icon(icon),
-          const SizedBox(width: 8),
-          Text(amenity),
+          const SizedBox(width: 4),
+          Text(
+            amenity,
+            style: const TextStyle(fontSize: 7),
+          ),
         ],
       ),
     );

@@ -106,25 +106,27 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildPropertyTypeButton('Todos',
-                      'assets/home_images/image_destacado.png', context,
-                      categoryId: 0),
-                  _buildPropertyTypeButton('Salones Elegantes',
-                      'assets/home_images/image_salon_elegante.png', context,
-                      categoryId: 3),
-                  _buildPropertyTypeButton('Casas de Playa',
-                      'assets/home_images/image_casa_playa.png', context,
-                      categoryId: 1),
-                  _buildPropertyTypeButton('Casas Urbanas',
-                      'assets/home_images/image_casa_urbana.png', context,
-                      categoryId: 2),
-                  _buildPropertyTypeButton('Casas de Campo',
-                      'assets/home_images/image_casa_campo.png', context,
-                      categoryId: 4),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildPropertyTypeButton(
+                        'assets/home_images/image_destacado.png', context,
+                        categoryId: 0),
+                    _buildPropertyTypeButton(
+                        'assets/home_images/image_salon_elegante.png', context,
+                        categoryId: 3),
+                    _buildPropertyTypeButton(
+                        'assets/home_images/image_casa_playa.png', context,
+                        categoryId: 1),
+                    _buildPropertyTypeButton(
+                        'assets/home_images/image_casa_urbana.png', context,
+                        categoryId: 2),
+                    _buildPropertyTypeButton(
+                        'assets/home_images/image_casa_campo.png', context,
+                        categoryId: 4),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -154,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(builder: (context) => FavoriteListPage()),
               );
+              break;
             case 2:
               Navigator.push(
                 context,
@@ -164,9 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UserProfileScreen(
-                        //preferredName: 'Huesped',
-                        )),
+                    builder: (context) => const UserProfileScreen()),
               );
               break;
           }
@@ -175,37 +176,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPropertyTypeButton(
-      String label, String imageUrl, BuildContext context,
+  Widget _buildPropertyTypeButton(String imageUrl, BuildContext context,
       {required int categoryId}) {
-    return Column(
-      children: [
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(0),
-            backgroundColor: Colors.transparent,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(0),
+              backgroundColor: Colors.transparent,
+            ),
+            onPressed: () {
+              _filterByCategory(categoryId);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: Image.asset(imageUrl, fit: BoxFit.cover),
+                ),
+                const SizedBox(height: 2),
+                // Elimina el texto de los botones, solo mostrar el icono
+              ],
+            ),
           ),
-          onPressed: () {
-            _filterByCategory(categoryId);
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 40,
-                height: 40,
-                child: Image.asset(imageUrl, fit: BoxFit.cover),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: const TextStyle(fontSize: 10, color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

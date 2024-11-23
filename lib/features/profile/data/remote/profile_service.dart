@@ -1,19 +1,19 @@
 import 'dart:convert';
-
-import 'package:nesthub/core/app_constants.dart';
-import 'package:nesthub/features/profile/data/remote/profile_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:nesthub/core/app_constants.dart';
 
-class LocalService {
-  Future<List<ProfileModel>> getProfiles() async {
-    final response = await http
-        .get(Uri.parse(AppConstants.baseUrl + AppConstants.profilesEndpoint));
+class ProfileService {
+  Future<String> getFullName(String userId) async {
+    final response = await http.get(
+      Uri.parse(
+          '${AppConstants.baseUrl}${AppConstants.profilesEndpoint}/$userId'),
+    );
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((model) => ProfileModel.fromJson(model)).toList();
+      var data = jsonDecode(response.body);
+      return data['fullName'];
     } else {
-      throw Exception('Error al cargar perfiles');
+      throw Exception('Failed to load profile');
     }
   }
 }

@@ -5,6 +5,7 @@ class AppConstants {
   static const String profilesEndpoint = '/profiles';
   static const String usersEndpoint = '/users';
   static const String loginEndpoint = '/authentication';
+  static const String addReviewEndpoint = '/review';
   static String reviewFromLocalEndpoint(int localId) =>
       '/review/local/$localId';
 }

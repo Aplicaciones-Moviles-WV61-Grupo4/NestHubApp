@@ -18,6 +18,7 @@ class AuthService {
     if (response.statusCode == 200) {
       UserDto userDto = UserDto.fromMap(json.decode(response.body));
 
+      await _saveSession(userDto.token, userDto.id.toString());
       await _saveUserName(userDto.username);
 
       return userDto;
@@ -47,6 +48,12 @@ class AuthService {
     }
   }
 
+  Future<void> _saveSession(String token, String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('auth_token', token);
+    await prefs.setString('user_id', id);
+  }
+
   Future<void> _saveUserName(String name) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('user_name', name);
@@ -55,10 +62,6 @@ class AuthService {
   Future<String> getUserName() async {
     final prefs = await SharedPreferences.getInstance();
     String? name = prefs.getString('user_name');
-
-    if (name == null) {
-      return 'Invitado';
-    }
-    return name;
+    return name ?? 'Invitado';
   }
 }

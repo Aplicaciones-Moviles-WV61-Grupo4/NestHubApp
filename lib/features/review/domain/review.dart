@@ -6,12 +6,11 @@ class Review {
   final String comment;
 
   Review({
-    required this.id,
+    this.id = 0,
     required this.rating,
     required this.comment,
   });
 
-  // Crear una instancia de Review desde un ReviewDto
   factory Review.fromDto(ReviewDto dto) {
     return Review(
       id: dto.id,

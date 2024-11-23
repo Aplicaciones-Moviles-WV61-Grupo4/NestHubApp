@@ -19,11 +19,11 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                 const Text(
                   '¿Cuál de estas opciones describe mejor tu espacio?',
                   style: TextStyle(
-                    fontSize: 34,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 GridView.count(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
@@ -61,7 +61,7 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -97,7 +97,7 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
     required int localCategoryId,
   }) {
     return SizedBox(
-      height: 120,
+      height: 100, // Reducimos un poco la altura del botón
       child: OutlinedButton(
         onPressed: () {
           Navigator.push(
@@ -119,9 +119,19 @@ class SpaceTypeSelectionScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(imagePath, height: 100),
-            const SizedBox(height: 8),
-            Text(label, textAlign: TextAlign.center),
+            Image.asset(
+              imagePath,
+              height: 60, // Reducimos la altura del ícono
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12, // Reducimos el tamaño del texto
+                fontWeight: FontWeight.normal, // Estilo más ligero
+              ),
+            ),
           ],
         ),
       ),

@@ -19,7 +19,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   String _userName = 'Invitado';
-  
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +42,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         title: const Text(
           'Perfil',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 28, // Reducido de 32
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -80,7 +80,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Text(
                         'Hola, $_userName',
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 18, // Reducido de 20
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -88,7 +88,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         onPressed: () async {
                           final result = await Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const PersonalInformationPage()),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PersonalInformationPage()),
                           );
                           if (result != null && result is String) {
                             setState(() {
@@ -121,7 +123,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       const Expanded(
                         child: Text(
                           'Publica tu espacio aquí.\nPublicar un anuncio y empieza a tener ingresos, es muy sencillo.',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 14), // Reducido de 16
                         ),
                       ),
                       Image.asset(
@@ -136,7 +138,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               const Text(
                 'Configuración',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16, // Reducido de 18
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -193,7 +195,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               const Text(
                 'Hospedar',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16, // Reducido de 18
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -206,7 +208,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               const Text(
                 'Asistencia',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16, // Reducido de 18
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -225,7 +227,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               const Text(
                 'Legal',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16, // Reducido de 18
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -301,7 +303,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           children: [
             Image.asset(imagePath, width: 24),
             const SizedBox(width: 16),
-            Text(text, style: const TextStyle(fontSize: 16)),
+            Text(
+              text,
+              style: const TextStyle(
+                fontSize: 7, // Reducido de 16 a 14
+                fontWeight: FontWeight.normal, // Menos énfasis si lo deseas
+              ),
+            ),
           ],
         ),
       ),

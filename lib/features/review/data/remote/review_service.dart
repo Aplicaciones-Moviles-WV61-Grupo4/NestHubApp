@@ -27,4 +27,28 @@ class ReviewService {
       throw Exception('Error al obtener reseñas');
     }
   }
+
+  Future<void> addReview(ReviewDto reviewDto) async {
+    final String url = AppConstants.baseUrl + AppConstants.addReviewEndpoint;
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(reviewDto.toJson()),
+      );
+
+      if (response.statusCode == 201) {
+        print('Review added successfully');
+      } else {
+        print('Failed to add review: ${response.body}');
+        throw Exception('Failed to add review');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Error al agregar reseña');
+    }
+  }
 }

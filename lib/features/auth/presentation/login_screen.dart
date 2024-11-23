@@ -48,6 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener el tamaño de la pantalla
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SafeArea(
@@ -167,6 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Continuar con correo',
                       color: Colors.grey[200]!,
                       borderColor: Colors.black,
+                      screenWidth: screenWidth,
                     ),
                     const SizedBox(height: 15),
                     _buildSocialButton(
@@ -174,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Continuar con Google',
                       color: Colors.grey[200]!,
                       borderColor: Colors.black,
+                      screenWidth: screenWidth,
                     ),
                     const SizedBox(height: 15),
                     _buildSocialButton(
@@ -181,6 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Continuar con Facebook',
                       color: Colors.grey[200]!,
                       borderColor: Colors.black,
+                      screenWidth: screenWidth,
                     ),
                     const SizedBox(height: 15),
                     _buildSocialButton(
@@ -188,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Registrarse',
                       color: Colors.grey[200]!,
                       borderColor: Colors.black,
+                      screenWidth: screenWidth,
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -212,10 +219,12 @@ class _LoginScreenState extends State<LoginScreen> {
     required String text,
     required Color color,
     required Color borderColor,
+    required double screenWidth,
     void Function()? onPressed,
   }) {
     return SizedBox(
-      width: 290,
+      width:
+          screenWidth * 0.8, // Ajuste el ancho al 80% del ancho de la pantalla
       height: 50,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
