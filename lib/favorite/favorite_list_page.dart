@@ -1,49 +1,54 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nesthub/favorite/favorite_cubit.dart';
 import 'package:nesthub/favorite/favorite_dao.dart';
 import 'package:nesthub/favorite/favorite_list_item.dart';
 import 'package:nesthub/favorite/favorite_model.dart';
+import 'package:nesthub/favorite/local_state.dart';
 
-class FavoriteListPage extends StatefulWidget {
-  const FavoriteListPage({Key? key}) : super(key: key);
-
-  @override
-  State<FavoriteListPage> createState() => _FavoriteListPageState();
-}
-
-class _FavoriteListPageState extends State<FavoriteListPage> {
-  List<FavoriteModel> _favorites = [];
-
-  Future<void> _loadData() async {
-    List<FavoriteModel> favorites = await FavoriteDao().fetchAll();
-    setState(() {
-      _favorites = favorites;
-    });
-  }
-
-  @override
-  void initState() {
-    _loadData();
-    super.initState();
-  }
+class FavoriteListPage extends StatelessWidget {
+  const FavoriteListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favoritos'),
-      ),
-      body: ListView.builder(
-        itemCount: _favorites.length,
-        itemBuilder: (context, index) => FavoriteListItem(
-          favorite: _favorites[index],
-          onDelete: () {
-            FavoriteDao().delete(_favorites[index].userId);
-            _loadData();
+    return BlocProvider(
+      create: (context) => FavoriteCubit(),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Favoritos')),
+        body: BlocBuilder<FavoriteCubit, Tuple2<LocalState, FavoriteState>>(
+          builder: (context, state) {
+            return FutureBuilder<List<FavoriteModel>>(
+              future: FavoriteDao().fetchAll(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Eliminado de favoritos'),
-              ),
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Error al cargar favoritos'));
+                }
+
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No hay favoritos aún.'));
+                }
+
+                final favorites = snapshot.data!;
+                return ListView.builder(
+                  itemCount: favorites.length,
+                  itemBuilder: (context, index) {
+                    final favorite = favorites[index];
+                    return FavoriteListItem(
+                      favorite: favorite,
+                      onDelete: () {
+                        FavoriteDao().delete(favorite.userId);
+                        BlocProvider.of<FavoriteCubit>(context)
+                            .loadLocalData(favorite.toLocal());
+                      },
+                    );
+                  },
+                );
+              },
             );
           },
         ),

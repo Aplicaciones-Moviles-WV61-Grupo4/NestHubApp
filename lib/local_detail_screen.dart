@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 import 'package:nesthub/core/app_constants.dart';
+import 'package:nesthub/favorite/app_database.dart';
 import 'package:nesthub/features/local/domain/local.dart';
 import 'package:nesthub/features/review/data/remote/review_dto.dart';
 import 'package:nesthub/features/review/domain/review.dart';
@@ -29,6 +30,23 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
     super.initState();
     _getLocationFromAddress(widget.localModel.street);
     _fetchReviews();
+  }
+
+  Future<void> _checkIfFavorite() async {
+    try {
+      final db = await AppDatabase().openDb();
+      final result = await db.query(
+        'favorites',
+        where: 'userId = ?',
+        whereArgs: [widget.localModel.userId],
+      );
+
+      setState(() {
+        isFavorite = result.isNotEmpty;
+      });
+    } catch (e) {
+      print('Error al verificar favoritos: $e');
+    }
   }
 
   Future<void> _getLocationFromAddress(String address) async {
@@ -218,10 +236,28 @@ class _LocalDetailScreenState extends State<LocalDetailScreen> {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   isFavorite = !isFavorite;
                 });
+                final db = await AppDatabase().openDb();
+                if (isFavorite) {
+                  await db.insert('favorites', {
+                    'userId': widget.localModel.userId,
+                    'district': widget.localModel.district,
+                    'street': widget.localModel.street,
+                    'title': widget.localModel.title,
+                    'city': widget.localModel.city,
+                    'price': widget.localModel.price,
+                    'photoUrl': widget.localModel.photoUrl,
+                    'descriptionMessage': widget.localModel.descriptionMessage,
+                    'localCategoryId': widget.localModel.localCategoryId,
+                  });
+                } else {
+                  await db.delete('favorites',
+                      where: 'userId = ?',
+                      whereArgs: [widget.localModel.userId]);
+                }
               },
               icon: Icon(
                 isFavorite ? Icons.favorite : Icons.favorite_border,

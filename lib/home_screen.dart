@@ -16,9 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //List<LocalDto> _models = [];
-  //List<LocalDto> _filteredModels = [];
-
   List<Local> _locals = [];
   List<Local> _filteredModels = [];
 
@@ -26,16 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategoryId = 0;
 
   Future<void> _loadData() async {
-    /*try {
-      print('Cargando datos desde: ${AppConstants.baseUrl}');
-      List<LocalDto> models = await LocalService().getLocals();
-      setState(() {
-        _models = models;
-        _filteredModels = models;
-      });
-    } catch (e) {
-      print('Error al cargar datos: $e');
-    }*/
     List<Local> locals =
         await LocalRepository(localService: LocalService()).getLocals();
     setState(() {
@@ -165,8 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
             case 1:
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const FavoriteListPage()),
+                MaterialPageRoute(builder: (context) => FavoriteListPage()),
               );
             case 2:
               Navigator.push(

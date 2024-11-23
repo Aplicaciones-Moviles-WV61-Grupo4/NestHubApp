@@ -1,5 +1,4 @@
-class Local {
-  final int id;
+class LocalState {
   final String district;
   final String street;
   final String title;
@@ -9,10 +8,8 @@ class Local {
   final String descriptionMessage;
   final int localCategoryId;
   final int userId;
-  final bool isFavorite;
 
-  Local({
-    this.id = 0,
+  LocalState({
     required this.district,
     required this.street,
     required this.title,
@@ -22,22 +19,11 @@ class Local {
     required this.descriptionMessage,
     required this.localCategoryId,
     required this.userId,
-    required this.isFavorite,
   });
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'district': district,
-      'street': street,
-      'title': title,
-      'city': city,
-      'price': price,
-      'photoUrl': photoUrl,
-      'descriptionMessage': descriptionMessage,
-      'localCategoryId': localCategoryId,
-      'userId': userId,
-      'isFavorite': isFavorite,
-    };
-  }
+class FavoriteState {
+  final bool isFavorite;
+
+  FavoriteState({required this.isFavorite});
 }

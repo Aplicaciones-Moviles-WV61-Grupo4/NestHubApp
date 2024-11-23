@@ -1,57 +1,70 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nesthub/favorite/favorite_dao.dart';
 import 'package:nesthub/favorite/favorite_model.dart';
+import 'package:nesthub/favorite/local_state.dart';
 import 'package:nesthub/features/local/domain/local.dart';
 
-class FavoriteCubit extends Cubit<Local> {
-  FavoriteCubit(super.local) {
-    FavoriteDao().isFavorite(state.userId).then((value) {
-      emit(Local(
-        district: state.district,
-        street: state.street,
-        title: state.title,
-        city: state.city,
-        price: state.price,
-        photoUrl: state.photoUrl,
-        descriptionMessage: state.descriptionMessage,
-        localCategoryId: state.localCategoryId,
-        userId: state.userId,
-        //reviews: state.reviews,
-        isFavorite: value,
-      ));
-    });
+class FavoriteCubit extends Cubit<Tuple2<LocalState, FavoriteState>> {
+  FavoriteCubit()
+      : super(
+          Tuple2(
+            LocalState(
+              district: '',
+              street: '',
+              title: '',
+              city: '',
+              price: 0,
+              photoUrl: '',
+              descriptionMessage: '',
+              localCategoryId: 0,
+              userId: 0,
+            ),
+            FavoriteState(isFavorite: false),
+          ),
+        );
+
+  void loadLocalData(Local local) async {
+    bool isFavorite = await FavoriteDao().isFavorite(local.userId);
+    emit(
+      Tuple2(
+        LocalState(
+          district: local.district,
+          street: local.street,
+          title: local.title,
+          city: local.city,
+          price: local.price,
+          photoUrl: local.photoUrl,
+          descriptionMessage: local.descriptionMessage,
+          localCategoryId: local.localCategoryId,
+          userId: local.userId,
+        ),
+        FavoriteState(isFavorite: isFavorite),
+      ),
+    );
   }
 
-  void toggleFavorite() {
-    bool isFavorite = !state.isFavorite;
-    if (isFavorite) {
-      FavoriteDao().insert(FavoriteModel(
-        userId: state.userId,
-        district: state.district,
-        street: state.street,
-        title: state.title,
-        city: state.city,
-        price: state.price,
-        photoUrl: state.photoUrl,
-        descriptionMessage: state.descriptionMessage,
-        localCategoryId: state.localCategoryId,
+  void toggleFavorite() async {
+    bool newFavoriteStatus = !state.value2.isFavorite;
+    if (newFavoriteStatus) {
+      await FavoriteDao().insert(FavoriteModel(
+        userId: state.value1.userId,
+        district: state.value1.district,
+        street: state.value1.street,
+        title: state.value1.title,
+        city: state.value1.city,
+        price: state.value1.price,
+        photoUrl: state.value1.photoUrl,
+        descriptionMessage: state.value1.descriptionMessage,
+        localCategoryId: state.value1.localCategoryId,
       ));
     } else {
-      FavoriteDao().delete(state.userId);
+      await FavoriteDao().delete(state.value1.userId);
     }
     emit(
-      Local(
-        district: state.district,
-        street: state.street,
-        title: state.title,
-        city: state.city,
-        price: state.price,
-        photoUrl: state.photoUrl,
-        descriptionMessage: state.descriptionMessage,
-        localCategoryId: state.localCategoryId,
-        userId: state.userId,
-        //reviews: state.reviews,
-        isFavorite: isFavorite,
+      Tuple2(
+        state.value1,
+        FavoriteState(isFavorite: newFavoriteStatus),
       ),
     );
   }
